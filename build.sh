@@ -5,20 +5,10 @@
 #   source .env && bash build.sh
 # ─────────────────────────────────────────────────────────────────
 set -e
-
-# create dist if not exists
+rm -rf dist
 mkdir -p dist
-
-# prefer 'src' if it exists, otherwise try 'public'
-if [ -d "src" ]; then
-  cp -r src/. dist/
-elif [ -d "public" ]; then
-  cp -r public/. dist/
-else
-  echo "Error: no source directory found (src or public)."
-  ls -la
-  exit 1
-fi
+cp *.html script.js *.css dist/ || true
+echo "Built static files into dist"
 
 # Validate required variables are present
 : "${SUPABASE_URL:?  ERROR: SUPABASE_URL is not set}"
