@@ -1,0 +1,15 @@
+# ── Secrets ───────────────────────────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Build output (generated, never committed) ─────────────────────
+dist/
+
+# ── OS / editor noise ─────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/
+.idea/
