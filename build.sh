@@ -11,10 +11,13 @@ rm -rf dist && mkdir -p dist
 find . -maxdepth 1 \( -name "*.html" -o -name "*.js" -o -name "*.css" \) \
   -exec cp {} dist/ \;
 
-# Inject env vars
-sed -i \
+# Inject env vars - using different delimiter since URLs contain slashes
+sed -i.bak \
   -e "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" \
   -e "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" \
   dist/app.js
+
+# Remove backup files
+rm -f dist/*.bak
 
 echo "✅ Done"
