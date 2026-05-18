@@ -39,6 +39,15 @@
       .animate-fade-in {
         animation: fadeIn 0.5s ease-out forwards;
       }
+      .hover-lift {
+        transition:
+          transform 0.2s ease,
+          box-shadow 0.2s ease;
+      }
+      .hover-lift:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.12);
+      }
     </style>
   </head>
   <body
@@ -365,9 +374,17 @@
         await App.init();
         const ok = await App.requireAuth();
         if (!ok) return;
+        if (!App.profile) {
+          App.toast("لم يتم العثور على الملف الشخصي، جاري إنشاؤه...", "info");
+          await App.ensureProfile();
+          if (!App.profile) {
+            App.toast("فشل إنشاء الملف الشخصي، تواصل مع المدير", "error");
+            return;
+          }
+        }
         document.getElementById("auth-loading").style.display = "none";
         document.getElementById("app-content").classList.remove("hidden");
-        App.renderSidebar("dashboard", App.profile.role);
+        App.renderSidebar("dashboard", App.profile?.role || "staff");
         App.renderUserHeader();
 
         async function loadData() {
@@ -425,7 +442,7 @@
               {
                 source: "staff_dashboard",
                 submitted_by: App.user.id,
-                full_name: App.profile.full_name,
+                full_name: App.profile?.full_name || "",
                 department: fd.get("department"),
                 description: fd.get("description"),
                 status: "pending",
@@ -446,4 +463,3 @@
     </script>
   </body>
 </html>
-

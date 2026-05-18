@@ -43,8 +43,31 @@
         .from("profiles")
         .select("*")
         .eq("id", this.user.id)
-        .single();
-      if (!error) this.profile = data;
+        .maybeSingle();
+      this.profile = error ? null : data;
+    },
+
+    async ensureProfile() {
+      if (!this.user || this.profile) return;
+      const meta = this.user.user_metadata || {};
+      const fullName =
+        meta.full_name ||
+        meta.name ||
+        this.user.email?.split("@")[0] ||
+        "مستخدم";
+      const { error } = await window.supabase.from("profiles").upsert(
+        [
+          {
+            id: this.user.id,
+            email: this.user.email,
+            full_name: fullName,
+            role: "staff",
+          },
+        ],
+        { onConflict: "id" },
+      );
+      if (error) console.error("ensureProfile error:", error);
+      else await this.loadProfile();
     },
 
     async requireAuth() {
@@ -62,13 +85,14 @@
         window.location.href = "login.html";
         return false;
       }
+      if (!this.profile) await this.ensureProfile();
       return true;
     },
 
     async requireAdmin() {
       const ok = await this.requireAuth();
       if (!ok) return false;
-      if (this.profile?.role !== "admin") {
+      if (!this.profile || this.profile.role !== "admin") {
         window.location.href = "dashboard.html";
         return false;
       }
@@ -84,6 +108,7 @@
       this.session = data.session;
       this.user = data.user;
       await this.loadProfile();
+      if (!this.profile) await this.ensureProfile();
       return data;
     },
 
@@ -95,17 +120,29 @@
       });
       if (error) throw error;
       if (data.user) {
-        await window.supabase
-          .from("profiles")
-          .insert([
-            { id: data.user.id, email, full_name: fullName, role: "staff" },
-          ]);
+        const { error: pErr } = await window.supabase.from("profiles").upsert(
+          [
+            {
+              id: data.user.id,
+              email,
+              full_name: fullName,
+              role: "staff",
+            },
+          ],
+          { onConflict: "id" },
+        );
+        if (pErr) console.error("Profile upsert error:", pErr);
       }
       return data;
     },
 
     async logout() {
-      await window.supabase.auth.signOut();
+      try {
+        await window.supabase.auth.signOut();
+      } catch (e) {}
+      this.session = null;
+      this.user = null;
+      this.profile = null;
       window.location.href = "login.html";
     },
 
@@ -187,10 +224,10 @@
       el.innerHTML = `
         <div class="flex items-center gap-3">
           <div class="h-10 w-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white font-bold shadow-md">
-            ${(this.profile.full_name || this.user.email || "؟").charAt(0).toUpperCase()}
+            ${(this.profile.full_name || this.user?.email || "؟").charAt(0).toUpperCase()}
           </div>
           <div class="hidden sm:block text-right">
-            <p class="text-sm font-bold text-slate-700 leading-tight">${this.profile.full_name || this.user.email}</p>
+            <p class="text-sm font-bold text-slate-700 leading-tight">${this.profile.full_name || this.user?.email}</p>
             <p class="text-[11px] text-slate-500 font-medium uppercase tracking-wide">${this.profile.role === "admin" ? "مدير النظام" : "موظف"}</p>
           </div>
           <button onclick="App.logout()" class="mr-2 p-2 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-500 transition-all" title="تسجيل الخروج">
@@ -281,4 +318,3 @@
 
   App.init();
 })();
-

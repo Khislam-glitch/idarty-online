@@ -129,13 +129,11 @@
           data: { session },
         } = await window.supabase.auth.getSession();
         if (session) {
-          const u = await window.supabase
-            .from("profiles")
-            .select("role")
-            .eq("id", session.user.id)
-            .single();
+          App.user = session.user;
+          await App.loadProfile();
+          if (!App.profile) await App.ensureProfile();
           window.location.href =
-            u.data?.role === "admin" ? "admin.html" : "dashboard.html";
+            App.profile?.role === "admin" ? "admin.html" : "dashboard.html";
         }
         document
           .getElementById("login-form")
@@ -163,4 +161,3 @@
     </script>
   </body>
 </html>
-
