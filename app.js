@@ -58,16 +58,14 @@
         meta.name ||
         this.user.email?.split("@")[0] ||
         "مستخدم";
-      const payload = {
-        id: this.user.id,
-        email: this.user.email,
-        full_name: fullName,
-        role: "staff",
-      };
-      // Use insert instead of upsert because we already confirmed the row doesn't exist
-      const { error } = await window.supabase
-        .from("profiles")
-        .insert([payload]);
+      const { error } = await window.supabase.from("profiles").insert([
+        {
+          id: this.user.id,
+          email: this.user.email,
+          full_name: fullName,
+          role: "staff",
+        },
+      ]);
       if (error) {
         console.error("ensureProfile insert error:", error.message, error);
         return false;
