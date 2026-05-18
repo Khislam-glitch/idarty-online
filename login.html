@@ -120,6 +120,7 @@
         </div>
       </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="app.js"></script>
     <script>
@@ -132,8 +133,10 @@
           App.user = session.user;
           await App.loadProfile();
           if (!App.profile) await App.ensureProfile();
-          window.location.href =
-            App.profile?.role === "admin" ? "admin.html" : "dashboard.html";
+          if (App.profile) {
+            window.location.href =
+              App.profile.role === "admin" ? "admin.html" : "dashboard.html";
+          }
         }
         document
           .getElementById("login-form")
@@ -146,14 +149,18 @@
               await App.login(fd.get("email"), fd.get("password"));
               App.toast("تم تسجيل الدخول بنجاح", "success");
               setTimeout(() => {
+                if (!App.profile) {
+                  App.toast("خطأ في تحميل الملف الشخصي", "error");
+                  App.setLoading(btn, false);
+                  return;
+                }
                 window.location.href =
-                  App.profile?.role === "admin"
+                  App.profile.role === "admin"
                     ? "admin.html"
                     : "dashboard.html";
               }, 400);
             } catch (err) {
               App.toast(err.message || "فشل تسجيل الدخول", "error");
-            } finally {
               App.setLoading(btn, false);
             }
           });

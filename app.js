@@ -44,30 +44,36 @@
         .select("*")
         .eq("id", this.user.id)
         .maybeSingle();
-      this.profile = error ? null : data;
+      if (error) {
+        console.error("loadProfile error:", error.message, error);
+      }
+      this.profile = data || null;
     },
 
     async ensureProfile() {
-      if (!this.user || this.profile) return;
+      if (!this.user || this.profile) return true;
       const meta = this.user.user_metadata || {};
       const fullName =
         meta.full_name ||
         meta.name ||
         this.user.email?.split("@")[0] ||
         "مستخدم";
-      const { error } = await window.supabase.from("profiles").upsert(
-        [
-          {
-            id: this.user.id,
-            email: this.user.email,
-            full_name: fullName,
-            role: "staff",
-          },
-        ],
-        { onConflict: "id" },
-      );
-      if (error) console.error("ensureProfile error:", error);
-      else await this.loadProfile();
+      const payload = {
+        id: this.user.id,
+        email: this.user.email,
+        full_name: fullName,
+        role: "staff",
+      };
+      // Use insert instead of upsert because we already confirmed the row doesn't exist
+      const { error } = await window.supabase
+        .from("profiles")
+        .insert([payload]);
+      if (error) {
+        console.error("ensureProfile insert error:", error.message, error);
+        return false;
+      }
+      await this.loadProfile();
+      return !!this.profile;
     },
 
     async requireAuth() {
@@ -85,13 +91,17 @@
         window.location.href = "login.html";
         return false;
       }
-      if (!this.profile) await this.ensureProfile();
+      if (!this.profile) {
+        const ok = await this.ensureProfile();
+        if (!ok) return "no-profile";
+      }
       return true;
     },
 
     async requireAdmin() {
       const ok = await this.requireAuth();
-      if (!ok) return false;
+      if (ok === false) return false;
+      if (ok === "no-profile") return "no-profile";
       if (!this.profile || this.profile.role !== "admin") {
         window.location.href = "dashboard.html";
         return false;
@@ -120,18 +130,16 @@
       });
       if (error) throw error;
       if (data.user) {
-        const { error: pErr } = await window.supabase.from("profiles").upsert(
-          [
-            {
-              id: data.user.id,
-              email,
-              full_name: fullName,
-              role: "staff",
-            },
-          ],
-          { onConflict: "id" },
-        );
-        if (pErr) console.error("Profile upsert error:", pErr);
+        const { error: pErr } = await window.supabase.from("profiles").insert([
+          {
+            id: data.user.id,
+            email,
+            full_name: fullName,
+            role: "staff",
+          },
+        ]);
+        if (pErr)
+          console.error("register profile insert error:", pErr.message, pErr);
       }
       return data;
     },
