@@ -167,7 +167,10 @@
             >الطلبات</a
           >
           <span id="nav-username" class="text-blue-200 text-xs"></span>
-          <button onclick="logout()" class="flex items-center gap-1 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-sm">
+          <button
+            onclick="logout()"
+            class="flex items-center gap-1 bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg transition-colors text-sm"
+          >
             <i class="fa-solid fa-sign-out-alt"></i> خروج
           </button>
         </div>
@@ -964,7 +967,7 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <script src="app.js"></script>
     <script>
       // ── Auth: require login, load profile ───────────────────
       let currentUser = null;
@@ -984,7 +987,8 @@
 
         // Show username in navbar if element exists
         const nameEl = document.getElementById("nav-username");
-        if (nameEl) nameEl.textContent = currentProfile?.username || currentUser.email;
+        if (nameEl)
+          nameEl.textContent = currentProfile?.username || currentUser.email;
 
         renderHistory();
       })();
@@ -994,21 +998,26 @@
       const mobileMenu = document.getElementById("mobile-menu");
       if (menuBtn)
         menuBtn.addEventListener("click", () =>
-          mobileMenu.classList.toggle("hidden")
+          mobileMenu.classList.toggle("hidden"),
         );
       document
         .querySelectorAll("#mobile-menu a")
         .forEach((link) =>
           link.addEventListener("click", () =>
-            mobileMenu.classList.add("hidden")
-          )
+            mobileMenu.classList.add("hidden"),
+          ),
         );
 
       // Escape key closes modals
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
-          ["modal-users","modal-logistics","modal-pedagogy","modal-labs","modal-activities"]
-            .forEach((id) => closeModal(id));
+          [
+            "modal-users",
+            "modal-logistics",
+            "modal-pedagogy",
+            "modal-labs",
+            "modal-activities",
+          ].forEach((id) => closeModal(id));
         }
       });
 
@@ -1023,21 +1032,47 @@
 
       function switchTab(tabId) {
         const emp = document.getElementById("tab-employee"),
-              tea = document.getElementById("tab-teacher");
+          tea = document.getElementById("tab-teacher");
         const btnEmp = document.getElementById("btn-tab-employee"),
-              btnTea = document.getElementById("btn-tab-teacher");
+          btnTea = document.getElementById("btn-tab-teacher");
         if (tabId === "tab-employee") {
-          emp.classList.remove("hidden"); tea.classList.add("hidden");
-          btnEmp.classList.add("text-primary","border-b-4","border-primary","bg-white","font-bold");
-          btnEmp.classList.remove("text-gray-500","font-medium");
-          btnTea.classList.add("text-gray-500","font-medium");
-          btnTea.classList.remove("text-primary","border-b-4","border-primary","bg-white","font-bold");
+          emp.classList.remove("hidden");
+          tea.classList.add("hidden");
+          btnEmp.classList.add(
+            "text-primary",
+            "border-b-4",
+            "border-primary",
+            "bg-white",
+            "font-bold",
+          );
+          btnEmp.classList.remove("text-gray-500", "font-medium");
+          btnTea.classList.add("text-gray-500", "font-medium");
+          btnTea.classList.remove(
+            "text-primary",
+            "border-b-4",
+            "border-primary",
+            "bg-white",
+            "font-bold",
+          );
         } else {
-          emp.classList.add("hidden"); tea.classList.remove("hidden");
-          btnTea.classList.add("text-primary","border-b-4","border-primary","bg-white","font-bold");
-          btnTea.classList.remove("text-gray-500","font-medium");
-          btnEmp.classList.add("text-gray-500","font-medium");
-          btnEmp.classList.remove("text-primary","border-b-4","border-primary","bg-white","font-bold");
+          emp.classList.add("hidden");
+          tea.classList.remove("hidden");
+          btnTea.classList.add(
+            "text-primary",
+            "border-b-4",
+            "border-primary",
+            "bg-white",
+            "font-bold",
+          );
+          btnTea.classList.remove("text-gray-500", "font-medium");
+          btnEmp.classList.add("text-gray-500", "font-medium");
+          btnEmp.classList.remove(
+            "text-primary",
+            "border-b-4",
+            "border-primary",
+            "bg-white",
+            "font-bold",
+          );
         }
       }
 
@@ -1061,16 +1096,20 @@
 
           history.forEach((req) => {
             const statusMap = {
-              pending:  '<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold">قيد المعالجة</span>',
-              approved: '<span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">تمت الموافقة</span>',
-              rejected: '<span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold">مرفوض</span>',
+              pending:
+                '<span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs font-bold">قيد المعالجة</span>',
+              approved:
+                '<span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs font-bold">تمت الموافقة</span>',
+              rejected:
+                '<span class="bg-red-100 text-red-700 px-2 py-1 rounded-full text-xs font-bold">مرفوض</span>',
             };
             const statusBadge = statusMap[req.status] || statusMap.pending;
             const dateStr = req.created_at
               ? new Date(req.created_at).toLocaleDateString("ar-EG")
               : "-";
             const row = document.createElement("tr");
-            row.className = "bg-white border-b hover:bg-gray-50/80 transition-colors fade-in-row";
+            row.className =
+              "bg-white border-b hover:bg-gray-50/80 transition-colors fade-in-row";
             row.innerHTML = `
               <td class="px-4 py-3 font-medium">${dateStr}</td>
               <td class="px-4 py-3"><span class="px-2 py-1 rounded bg-blue-50 text-blue-700 text-xs font-bold">${req.type}</span></td>
@@ -1092,27 +1131,36 @@
       // ── Form submit → Supabase insert ───────────────────────
       async function handleFormSubmit(event, requestType) {
         event.preventDefault();
-        if (!currentUser) { showToast("يجب تسجيل الدخول أولاً"); return; }
+        if (!currentUser) {
+          showToast("يجب تسجيل الدخول أولاً");
+          return;
+        }
 
         const btn = event.target.querySelector(".submit-btn");
         const originalText = btn.innerHTML;
         btn.disabled = true;
         btn.innerHTML = `جاري الإرسال <span class="loader"></span>`;
 
-        const formData  = new FormData(event.target);
-        const userName  = formData.get("name") || currentProfile?.username || "مجهول";
-        const detail    = formData.get("type_detail") || "بدون تفاصيل";
+        const formData = new FormData(event.target);
+        const userName =
+          formData.get("name") || currentProfile?.username || "مجهول";
+        const detail = formData.get("type_detail") || "بدون تفاصيل";
 
         try {
           await submitRequest({
-            user_id:   currentUser.id,
+            user_id: currentUser.id,
             user_name: userName,
-            type:      requestType,
-            details:   detail,
+            type: requestType,
+            details: detail,
           });
 
-          ["modal-users","modal-logistics","modal-pedagogy","modal-labs","modal-activities"]
-            .forEach((id) => closeModal(id));
+          [
+            "modal-users",
+            "modal-logistics",
+            "modal-pedagogy",
+            "modal-labs",
+            "modal-activities",
+          ].forEach((id) => closeModal(id));
           showToast(`تم تسجيل "${requestType}" بنجاح.`);
           event.target.reset();
           renderHistory();
@@ -1153,4 +1201,3 @@
     </script>
   </body>
 </html>
-

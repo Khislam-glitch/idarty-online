@@ -165,42 +165,52 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <script src="app.js"></script>
     <script>
       // If user already has a session, redirect immediately
       (async () => {
         try {
-          const { data: { user } } = await supabase.auth.getUser();
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
           if (user) {
             const profile = await getProfile(user.id);
-            window.location.href = profile?.role === "admin" ? "admin.html" : "dashboard.html";
+            window.location.href =
+              profile?.role === "admin" ? "admin.html" : "dashboard.html";
           }
         } catch (_) {}
       })();
 
-      document.getElementById("loginForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const email    = document.getElementById("email").value;
-        const password = document.getElementById("password").value;
-        const btn      = document.getElementById("loginBtn");
-        const errEl    = document.getElementById("errorMsg");
-        errEl.style.display = "none";
-        const original = btn.innerHTML;
-        btn.innerHTML  = '<span class="loading-spinner"></span> جاري التسجيل...';
-        btn.disabled   = true;
+      document
+        .getElementById("loginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("email").value;
+          const password = document.getElementById("password").value;
+          const btn = document.getElementById("loginBtn");
+          const errEl = document.getElementById("errorMsg");
+          errEl.style.display = "none";
+          const original = btn.innerHTML;
+          btn.innerHTML =
+            '<span class="loading-spinner"></span> جاري التسجيل...';
+          btn.disabled = true;
 
-        try {
-          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-          if (error) throw error;
-          const profile = await getProfile(data.user.id);
-          window.location.href = profile?.role === "admin" ? "admin.html" : "dashboard.html";
-        } catch (err) {
-          errEl.textContent    = err.message || "حدث خطأ في الاتصال";
-          errEl.style.display  = "block";
-          btn.innerHTML        = original;
-          btn.disabled         = false;
-        }
-      });
+          try {
+            const { data, error } = await supabase.auth.signInWithPassword({
+              email,
+              password,
+            });
+            if (error) throw error;
+            const profile = await getProfile(data.user.id);
+            window.location.href =
+              profile?.role === "admin" ? "admin.html" : "dashboard.html";
+          } catch (err) {
+            errEl.textContent = err.message || "حدث خطأ في الاتصال";
+            errEl.style.display = "block";
+            btn.innerHTML = original;
+            btn.disabled = false;
+          }
+        });
     </script>
   </body>
 </html>

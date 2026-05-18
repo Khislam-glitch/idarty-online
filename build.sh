@@ -15,6 +15,6 @@ find . -maxdepth 1 \( -name "*.html" -o -name "*.js" -o -name "*.css" \) \
 sed -i \
   -e "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" \
   -e "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" \
-  dist/script.js
+  dist/app.js
 
 echo "✅ Done"

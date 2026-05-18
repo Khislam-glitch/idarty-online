@@ -152,57 +152,62 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js"></script>
+    <script src="app.js"></script>
     <script>
-      document.getElementById("registerForm").addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const username  = document.getElementById("username").value.trim();
-        const email     = document.getElementById("email").value.trim();
-        const password  = document.getElementById("password").value;
-        const confirm   = document.getElementById("confirmPassword").value;
-        const errEl     = document.getElementById("errorMsg");
-        const okEl      = document.getElementById("successMsg");
+      document
+        .getElementById("registerForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const username = document.getElementById("username").value.trim();
+          const email = document.getElementById("email").value.trim();
+          const password = document.getElementById("password").value;
+          const confirm = document.getElementById("confirmPassword").value;
+          const errEl = document.getElementById("errorMsg");
+          const okEl = document.getElementById("successMsg");
 
-        errEl.style.display = "none";
-        okEl.style.display  = "none";
+          errEl.style.display = "none";
+          okEl.style.display = "none";
 
-        if (password !== confirm) {
-          errEl.textContent = "كلمة المرور غير متطابقة";
-          errEl.style.display = "block";
-          return;
-        }
-        if (password.length < 6) {
-          errEl.textContent = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
-          errEl.style.display = "block";
-          return;
-        }
-
-        try {
-          const { data, error } = await supabase.auth.signUp({
-            email,
-            password,
-            options: { data: { username, role: "user" } },
-          });
-          if (error) throw error;
-
-          // Also insert a row into the profiles table
-          if (data.user) {
-            await supabase.from("profiles").upsert({
-              id:       data.user.id,
-              username,
-              email,
-              role:     "user",
-            });
+          if (password !== confirm) {
+            errEl.textContent = "كلمة المرور غير متطابقة";
+            errEl.style.display = "block";
+            return;
+          }
+          if (password.length < 6) {
+            errEl.textContent = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+            errEl.style.display = "block";
+            return;
           }
 
-          okEl.textContent    = "تم إنشاء الحساب بنجاح! يمكنك تسجيل الدخول الآن.";
-          okEl.style.display  = "block";
-          setTimeout(() => { window.location.href = "login.html"; }, 2000);
-        } catch (err) {
-          errEl.textContent   = err.message || "حدث خطأ أثناء التسجيل";
-          errEl.style.display = "block";
-        }
-      });
+          try {
+            const { data, error } = await supabase.auth.signUp({
+              email,
+              password,
+              options: { data: { username, role: "user" } },
+            });
+            if (error) throw error;
+
+            // Also insert a row into the profiles table
+            if (data.user) {
+              await supabase.from("profiles").upsert({
+                id: data.user.id,
+                username,
+                email,
+                role: "user",
+              });
+            }
+
+            okEl.textContent =
+              "تم إنشاء الحساب بنجاح! يمكنك تسجيل الدخول الآن.";
+            okEl.style.display = "block";
+            setTimeout(() => {
+              window.location.href = "login.html";
+            }, 2000);
+          } catch (err) {
+            errEl.textContent = err.message || "حدث خطأ أثناء التسجيل";
+            errEl.style.display = "block";
+          }
+        });
     </script>
   </body>
 </html>
