@@ -14,11 +14,15 @@ ls -la *.html *.js 2>/dev/null || echo "No files found!"
 # Copy files
 cp -v *.html *.js dist/ 2>/dev/null || echo "Copy failed!"
 
-# Inject env vars into app.js
+# Inject env vars into app.js safely without breaking the file
 if [ -f "dist/app.js" ]; then
   echo "Injecting environment variables into app.js..."
-  sed -i "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" dist/app.js
-  sed -i "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" dist/app.js
+
+  # Using a temporary file is the safest way to handle sed in cross-platform environments
+  sed "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" dist/app.js >dist/app.tmp.js
+  sed "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" dist/app.tmp.js >dist/app.js
+  rm -f dist/app.tmp.js
+
   echo "✅ Variables injected"
 else
   echo "❌ dist/app.js not found!"
