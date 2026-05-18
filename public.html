@@ -1,0 +1,441 @@
+<!-- public.html -->
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إدارتي أونلاين | البوابة العامة</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Tajawal", "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+      .glass-dark {
+        background: rgba(15, 23, 42, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-8px);
+        }
+      }
+      .animate-fade-up {
+        animation: fadeUp 0.7s ease-out forwards;
+      }
+      .animate-float {
+        animation: float 4s ease-in-out infinite;
+      }
+      .delay-100 {
+        animation-delay: 0.1s;
+      }
+      .delay-200 {
+        animation-delay: 0.2s;
+      }
+      .delay-300 {
+        animation-delay: 0.3s;
+      }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-50 via-indigo-50/60 to-cyan-50/60 min-h-screen text-slate-800 font-sans overflow-x-hidden"
+  >
+    <
+    <nav class="fixed top-0 right-0 left-0 z-50 glass border-b border-white/40">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex items-center justify-between h-16">
+          <div class="flex items-center gap-2">
+            <div
+              class="h-9 w-9 rounded-lg bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md"
+            >
+              <svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+            </div>
+            <span
+              class="text-xl font-black bg-clip-text text-transparent bg-gradient-to-l from-indigo-700 to-violet-700"
+              >إدارتي أونلاين</span
+            >
+          </div>
+          <div class="flex items-center gap-3">
+            <a
+              href="login.html"
+              class="hidden sm:inline-flex px-5 py-2 rounded-xl bg-indigo-600 text-white text-sm font-bold shadow-md hover:bg-indigo-700 hover:shadow-lg transition-all"
+              >تسجيل الدخول</a
+            >
+            <a
+              href="login.html"
+              class="sm:hidden p-2 rounded-lg bg-indigo-600 text-white"
+              ><svg
+                class="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+                ></path></svg
+            ></a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <
+    <main class="pt-24 pb-16">
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="grid lg:grid-cols-2 gap-12 items-center">
+          <div class="text-center lg:text-right animate-fade-up">
+            <div
+              class="inline-block px-4 py-1.5 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold mb-6 border border-indigo-200"
+            >
+              المنصة الإدارية المتكاملة
+            </div>
+            <h1
+              class="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6"
+            >
+              <span
+                class="bg-clip-text text-transparent bg-gradient-to-l from-indigo-700 via-violet-700 to-cyan-700"
+                >إدارتي أونلاين</span
+              >
+            </h1>
+            <p
+              class="text-lg text-slate-600 mb-8 leading-relaxed max-w-xl mx-auto lg:mx-0"
+            >
+              منصة ذكية لإدارة الطلبات والموظفين بكفاءة عالية. قدم طلباتك
+              بسهولة، تابع حالتها لحظياً، واستمتع بتجربة إدارية متطورة.
+            </p>
+            <div
+              class="flex flex-col sm:flex-row gap-3 justify-center lg:justify-start"
+            >
+              <a
+                href="#request-form"
+                class="px-8 py-3.5 rounded-xl bg-gradient-to-l from-indigo-600 to-violet-600 text-white font-bold shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 transition-all text-center"
+                >تقديم طلب جديد</a
+              >
+              <a
+                href="login.html"
+                class="px-8 py-3.5 rounded-xl glass text-slate-700 font-bold hover:bg-white/90 transition-all text-center"
+                >دخول الموظفين</a
+              >
+            </div>
+          </div>
+          <div class="relative hidden lg:block animate-fade-up delay-200">
+            <div
+              class="absolute inset-0 bg-gradient-to-l from-indigo-400/20 to-cyan-400/20 rounded-3xl blur-3xl"
+            ></div>
+            <div
+              class="relative glass rounded-3xl p-8 shadow-2xl animate-float"
+            >
+              <div class="space-y-4">
+                <div
+                  class="flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-slate-100"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-emerald-100 flex items-center justify-center text-emerald-600"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M5 13l4 4L19 7"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-slate-700">طلب جديد</p>
+                    <p class="text-xs text-slate-500">تم الاستلام بنجاح</p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-slate-100"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-amber-100 flex items-center justify-center text-amber-600"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-slate-700">قيد المراجعة</p>
+                    <p class="text-xs text-slate-500">
+                      يتم معالجة الطلب حالياً
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex items-center gap-4 p-4 rounded-xl bg-white/60 border border-slate-100"
+                >
+                  <div
+                    class="h-10 w-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600"
+                  >
+                    <svg
+                      class="w-5 h-5"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                        stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div>
+                    <p class="text-sm font-bold text-slate-700">تمت الموافقة</p>
+                    <p class="text-xs text-slate-500">الطلب معتمد ومنفذ</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="grid md:grid-cols-3 gap-6">
+          <div
+            class="glass rounded-2xl p-6 hover-lift animate-fade-up delay-100"
+          >
+            <div
+              class="h-12 w-12 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-500 flex items-center justify-center text-white shadow-md mb-4"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 10V3L4 14h7v7l9-11h-7z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">سرعة التنفيذ</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">
+              تقديم الطلبات بخطوات بسيطة ومتابعة فورية لحالة كل طلب من خلال لوحة
+              تحكم ذكية.
+            </p>
+          </div>
+          <div
+            class="glass rounded-2xl p-6 hover-lift animate-fade-up delay-200"
+          >
+            <div
+              class="h-12 w-12 rounded-xl bg-gradient-to-br from-violet-500 to-cyan-500 flex items-center justify-center text-white shadow-md mb-4"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">أمان وحماية</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">
+              بنية تحتية آمنة مع صلاحيات基于الأدوار و تشفير كامل للبيانات
+              الحساسة.
+            </p>
+          </div>
+          <div
+            class="glass rounded-2xl p-6 hover-lift animate-fade-up delay-300"
+          >
+            <div
+              class="h-12 w-12 rounded-xl bg-gradient-to-br from-cyan-500 to-emerald-500 flex items-center justify-center text-white shadow-md mb-4"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m6 0a2 2 0 002-2h2a2 2 0 002-2v-6a2 2 0 00-2-2h-2a2 2 0 00-2 2v6a2 2 0 002 2z"
+                ></path>
+              </svg>
+            </div>
+            <h3 class="text-lg font-bold text-slate-800 mb-2">تحليلات ذكية</h3>
+            <p class="text-sm text-slate-500 leading-relaxed">
+              لوحة تحكم المدير توفر إحصائيات وتحليلات فورية لأداء الطلبات
+              والموظفين.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section
+        id="request-form"
+        class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 mb-12"
+      >
+        <div class="glass rounded-3xl shadow-xl p-8 animate-fade-up">
+          <div class="text-center mb-8">
+            <h2 class="text-2xl font-black text-slate-800">تقديم طلب جديد</h2>
+            <p class="text-slate-500 text-sm mt-1">
+              املأ النموذج التالي وسيتم مراجعة طلبك في أقرب وقت
+            </p>
+          </div>
+          <form id="public-form" class="space-y-5">
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >الاسم الكامل <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="text"
+                  name="full_name"
+                  required
+                  class="w-full px-4 py-3 rounded-xl bg-white/70 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm"
+                  placeholder="محمد أحمد"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >القسم / الإدارة <span class="text-rose-500">*</span></label
+                >
+                <input
+                  type="text"
+                  name="department"
+                  required
+                  class="w-full px-4 py-3 rounded-xl bg-white/70 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm"
+                  placeholder="مثال: الموارد البشرية"
+                />
+              </div>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                >تفاصيل الطلب <span class="text-rose-500">*</span></label
+              >
+              <textarea
+                name="description"
+                required
+                rows="4"
+                class="w-full px-4 py-3 rounded-xl bg-white/70 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm resize-none"
+                placeholder="اكتب تفاصيل الطلب هنا..."
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              id="submit-btn"
+              class="w-full py-3.5 rounded-xl bg-gradient-to-l from-indigo-600 to-violet-600 text-white font-bold shadow-lg shadow-indigo-200 hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200"
+            >
+              إرسال الطلب
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <footer class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 text-center">
+        <p class="text-sm text-slate-400">
+          إدارتي أونلاين &copy; 2026. جميع الحقوق محفوظة.
+        </p>
+      </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+    <script>
+      (async () => {
+        await App.init();
+        document
+          .getElementById("public-form")
+          .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("submit-btn");
+            App.setLoading(btn, true);
+            const fd = new FormData(e.target);
+            const { error } = await window.supabase.from("requests").insert([
+              {
+                source: "public",
+                full_name: fd.get("full_name"),
+                department: fd.get("department"),
+                description: fd.get("description"),
+                status: "pending",
+              },
+            ]);
+            App.setLoading(btn, false);
+            if (error) {
+              App.toast(error.message, "error");
+            } else {
+              App.toast("تم إرسال الطلب بنجاح وسيتم مراجعته", "success");
+              e.target.reset();
+            }
+          });
+      })();
+    </script>
+  </body>
+</html>

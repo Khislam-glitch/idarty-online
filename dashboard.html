@@ -1,97 +1,449 @@
-<!DOCTYPE html>
+<!-- dashboard.html -->
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>لوحة التحكم - إدارتي أونلاين</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./app.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#3B82F6',
-            secondary: '#1E40AF'
-          }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إدارتي أونلاين | لوحة الموظف</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Tajawal", "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-    }
-  </script>
-</head>
-<body class="bg-gray-100">
-
-  <!-- Sidebar -->
-  <div class="flex">
-    <aside class="w-64 bg-white shadow-lg min-h-screen p-6">
-      <h2 class="text-2xl font-bold text-gray-800 mb-8">إدارتي أونلاين</h2>
-      <nav class="space-y-4">
-        <a href="#" class="block py-2 px-4 bg-primary text-white rounded-lg font-medium">لوحة التحكم</a>
-        <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">الملف الشخصي</a>
-        <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100 rounded-lg">الإعدادات</a>
-      </nav>
-      <button id="logoutBtn" class="mt-8 w-full py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition">تسجيل الخروج</button>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-8">
-      <header class="mb-8">
-        <h1 id="greeting" class="text-3xl font-bold text-gray-800">مرحباً بك في لوحة التحكم!</h1>
-        <p class="text-gray-600">نظرة عامة على نشاطك.</p>
-      </header>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">المهام المكتملة</h3>
-          <p class="text-2xl font-bold mt-2">24</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">المشاريع النشطة</h3>
-          <p class="text-2xl font-bold mt-2">5</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">الإشعارات</h3>
-          <p class="text-2xl font-bold mt-2">3</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">آخر النشاطات</h2>
-        <ul class="space-y-2">
-          <li class="text-gray-600">قمت بإكمال مهمة "مراجعة العقد".</li>
-          <li class="text-gray-600">تم تحديث مشروع "تطوير الموقع".</li>
-          <li class="text-gray-600">لديك اجتماع مجدول غداً الساعة 10 صباحاً.</li>
-        </ul>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const greetingEl = document.getElementById('greeting');
-      const logoutBtn = document.getElementById('logoutBtn');
-
-      // Security Gate: Validate session and role
-      const { data: { session } } = await window.supabase.auth.getSession();
-      if (!session) {
-        window.location.href = 'login.html';
-        return;
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
       }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-50 via-indigo-50/40 to-cyan-50/40 min-h-screen text-slate-800 font-sans"
+  >
+    <div
+      id="auth-loading"
+      class="fixed inset-0 z-[100] bg-gradient-to-br from-slate-50 via-indigo-50 to-cyan-50 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"
+        ></div>
+        <p class="text-slate-600 font-medium">جاري التحقق من الجلسة...</p>
+      </div>
+    </div>
 
-      const profile = await getProfile(session.user.id);
-      if (!profile || profile.role !== 'user') {
-        window.location.href = 'login.html';
-        return;
-      }
+    <div id="app-content" class="hidden">
+      <div
+        id="sidebar-backdrop"
+        class="fixed inset-0 bg-slate-900/30 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity"
+      ></div>
+      <aside
+        id="sidebar"
+        class="fixed top-0 right-0 h-full w-72 glass border-l border-white/50 z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col"
+      >
+        <div class="p-6 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-lg font-black text-slate-800 leading-tight">
+                إدارتي
+              </h2>
+              <p
+                class="text-[10px] font-bold text-indigo-600 uppercase tracking-wider"
+              >
+                لوحة الموظف
+              </p>
+            </div>
+          </div>
+        </div>
+        <nav
+          id="sidebar-nav"
+          class="flex-1 p-4 space-y-1 overflow-y-auto"
+        ></nav>
+        <div class="p-4 border-t border-slate-100">
+          <button
+            onclick="App.logout()"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-rose-600 hover:bg-rose-50 transition-all font-medium text-sm"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              ></path>
+            </svg>
+            تسجيل الخروج
+          </button>
+        </div>
+      </aside>
 
-      greetingEl.textContent = `مرحباً، ${profile.full_name}!`;
+      <div class="lg:mr-72 min-h-screen flex flex-col">
+        <header
+          class="sticky top-0 z-30 glass border-b border-white/40 px-6 py-3 flex items-center justify-between"
+        >
+          <div class="flex items-center gap-3">
+            <button
+              id="mobile-toggle"
+              class="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+            <h1 class="text-lg font-bold text-slate-800">لوحة التحكم</h1>
+          </div>
+          <div id="header-user"></div>
+        </header>
 
-      logoutBtn.addEventListener('click', async () => {
-        await window.supabase.auth.signOut();
-        window.location.href = 'login.html';
-      });
-    });
-  </script>
-</body>
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="glass rounded-2xl p-5 hover-lift animate-fade-in">
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    ></path>
+                  </svg>
+                </div>
+                <span id="stat-total" class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">إجمالي الطلبات</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.1s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  id="stat-pending"
+                  class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">قيد الانتظار</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.2s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-emerald-100 flex items-center justify-center text-emerald-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  id="stat-approved"
+                  class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">تمت الموافقة</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.3s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-rose-100 flex items-center justify-center text-rose-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  id="stat-rejected"
+                  class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">مرفوض</p>
+            </div>
+          </div>
+
+          <div
+            class="glass rounded-2xl shadow-lg p-6 mb-8 animate-fade-in"
+            style="animation-delay: 0.2s"
+          >
+            <div class="flex items-center justify-between mb-5">
+              <h2 class="text-lg font-bold text-slate-800">طلب جديد</h2>
+            </div>
+            <form id="new-request-form" class="grid sm:grid-cols-2 gap-4">
+              <div class="sm:col-span-1">
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >القسم</label
+                >
+                <input
+                  type="text"
+                  name="department"
+                  required
+                  class="w-full px-4 py-2.5 rounded-xl bg-white/60 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm"
+                  placeholder="اسم القسم"
+                />
+              </div>
+              <div class="sm:col-span-2">
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5"
+                  >الوصف</label
+                >
+                <textarea
+                  name="description"
+                  required
+                  rows="3"
+                  class="w-full px-4 py-2.5 rounded-xl bg-white/60 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 outline-none transition-all text-sm resize-none"
+                  placeholder="تفاصيل الطلب..."
+                ></textarea>
+              </div>
+              <div class="sm:col-span-2">
+                <button
+                  type="submit"
+                  id="new-req-btn"
+                  class="px-6 py-2.5 rounded-xl bg-gradient-to-l from-indigo-600 to-violet-600 text-white font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all text-sm"
+                >
+                  إرسال الطلب
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div
+            id="requests"
+            class="glass rounded-2xl shadow-lg overflow-hidden animate-fade-in"
+            style="animation-delay: 0.3s"
+          >
+            <div
+              class="p-6 border-b border-slate-100 flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold text-slate-800">طلباتي</h2>
+              <span
+                id="req-count"
+                class="px-3 py-1 rounded-full bg-indigo-100 text-indigo-700 text-xs font-bold"
+                >0</span
+              >
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-right">
+                <thead
+                  class="bg-slate-50/80 text-slate-600 font-bold text-xs uppercase tracking-wider"
+                >
+                  <tr>
+                    <th class="px-6 py-4">القسم</th>
+                    <th class="px-6 py-4">الوصف</th>
+                    <th class="px-6 py-4">الحالة</th>
+                    <th class="px-6 py-4">التاريخ</th>
+                  </tr>
+                </thead>
+                <tbody id="requests-table" class="divide-y divide-slate-100">
+                  <tr>
+                    <td
+                      colspan="4"
+                      class="px-6 py-12 text-center text-slate-400"
+                    >
+                      جاري التحميل...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+    <script>
+      (async () => {
+        await App.init();
+        const ok = await App.requireAuth();
+        if (!ok) return;
+        document.getElementById("auth-loading").style.display = "none";
+        document.getElementById("app-content").classList.remove("hidden");
+        App.renderSidebar("dashboard", App.profile.role);
+        App.renderUserHeader();
+
+        async function loadData() {
+          const uid = App.user.id;
+          const { data, error } = await window.supabase
+            .from("requests")
+            .select("*")
+            .eq("submitted_by", uid)
+            .order("created_at", { ascending: false });
+          if (error) {
+            App.toast(error.message, "error");
+            return;
+          }
+          const tbody = document.getElementById("requests-table");
+          document.getElementById("req-count").textContent = (
+            data || []
+          ).length;
+          if (!data || data.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center"><div class="flex flex-col items-center gap-2 text-slate-400"><svg class="w-10 h-10 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg><p>لا توجد طلبات مسجلة</p></div></td></tr>`;
+          } else {
+            tbody.innerHTML = data
+              .map(
+                (r) => `
+        <tr class="hover:bg-white/50 transition-colors group">
+          <td class="px-6 py-4 font-medium text-slate-700">${r.department || "-"}</td>
+          <td class="px-6 py-4 text-slate-600 max-w-xs truncate" title="${r.description || ""}">${r.description || "-"}</td>
+          <td class="px-6 py-4"><span class="inline-flex px-2.5 py-1 rounded-lg text-xs font-bold border ${App.statusStyle(r.status)}">${App.statusLabel(r.status)}</span></td>
+          <td class="px-6 py-4 text-slate-500 text-xs whitespace-nowrap">${App.fmtDate(r.created_at)}</td>
+        </tr>`,
+              )
+              .join("");
+          }
+          const counts = { pending: 0, approved: 0, rejected: 0 };
+          (data || []).forEach((r) => {
+            if (counts[r.status] !== undefined) counts[r.status]++;
+          });
+          document.getElementById("stat-total").textContent = (
+            data || []
+          ).length;
+          document.getElementById("stat-pending").textContent = counts.pending;
+          document.getElementById("stat-approved").textContent =
+            counts.approved;
+          document.getElementById("stat-rejected").textContent =
+            counts.rejected;
+        }
+
+        document
+          .getElementById("new-request-form")
+          .addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById("new-req-btn");
+            App.setLoading(btn, true);
+            const fd = new FormData(e.target);
+            const { error } = await window.supabase.from("requests").insert([
+              {
+                source: "staff_dashboard",
+                submitted_by: App.user.id,
+                full_name: App.profile.full_name,
+                department: fd.get("department"),
+                description: fd.get("description"),
+                status: "pending",
+              },
+            ]);
+            App.setLoading(btn, false);
+            if (error) {
+              App.toast(error.message, "error");
+            } else {
+              App.toast("تم إرسال الطلب بنجاح", "success");
+              e.target.reset();
+              loadData();
+            }
+          });
+
+        loadData();
+      })();
+    </script>
+  </body>
 </html>
+

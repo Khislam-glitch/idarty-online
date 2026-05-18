@@ -1,16 +1,33 @@
-#!/usr/bin/env bash
-set -e
+#!/bin/bash
+set -euo pipefail
 
-if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
-  echo "Error: SUPABASE_URL and SUPABASE_ANON_KEY must be set in Netlify environment variables."
+echo "🔧 Building إدارتي أونلاين..."
+
+if [ -z "${SUPABASE_URL:-}" ]; then
+  echo "❌ Error: SUPABASE_URL is not set"
+  exit 1
+fi
+
+if [ -z "${SUPABASE_ANON_KEY:-}" ]; then
+  echo "❌ Error: SUPABASE_ANON_KEY is not set"
   exit 1
 fi
 
 rm -rf dist
-mkdir dist
+mkdir -p dist
 
-cp *.html *.js dist/
+cp netlify.toml dist/
+cp *.html dist/
+cp *.js dist/
 
-# Replace placeholders safely using a temp file
-sed "s|%%SUPABASE_URL%%|$SUPABASE_URL|g; s|%%SUPABASE_ANON_KEY%%|$SUPABASE_ANON_KEY|g" dist/app.js > dist/app.js.tmp
-mv dist/app.js.tmp dist/app.js
+for file in dist/*.html dist/*.js; do
+  if [ -f "$file" ]; then
+    sed -i "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" "$file"
+    sed -i "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" "$file"
+  fi
+done
+
+cp dist/public.html dist/index.html
+
+echo "✅ Build complete. Ready for deployment."
+

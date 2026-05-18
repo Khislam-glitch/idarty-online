@@ -1,129 +1,548 @@
-<!DOCTYPE html>
+<!-- admin.html -->
+<!doctype html>
 <html lang="ar" dir="rtl">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>لوحة التحكم الإدارية - إدارتي أونلاين</title>
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./app.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            primary: '#3B82F6',
-            secondary: '#1E40AF'
-          }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>إدارتي أونلاين | لوحة المدير</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ["Tajawal", "system-ui", "sans-serif"] },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass {
+        background: rgba(255, 255, 255, 0.75);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.4);
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(12px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
         }
       }
-    }
-  </script>
-</head>
-<body class="bg-gray-100">
-
-  <!-- Sidebar -->
-  <div class="flex">
-    <aside class="w-64 bg-gray-900 text-white min-h-screen p-6">
-      <h2 class="text-2xl font-bold mb-8">لوحة الإدارة</h2>
-      <nav class="space-y-4">
-        <a href="#" class="block py-2 px-4 bg-gray-800 rounded-lg font-medium">الرئيسية</a>
-        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">إدارة المستخدمين</a>
-        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">التقارير</a>
-        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">الإعدادات</a>
-      </nav>
-      <button id="logoutBtn" class="mt-8 w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">تسجيل الخروج</button>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-8">
-      <header class="mb-8">
-        <h1 id="greeting" class="text-3xl font-bold text-gray-800">مرحباً بك في لوحة التحكم الإدارية!</h1>
-        <p class="text-gray-600">نظرة عامة على النظام.</p>
-      </header>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">إجمالي المستخدمين</h3>
-          <p class="text-2xl font-bold mt-2">1,248</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">المستخدمين النشطين</h3>
-          <p class="text-2xl font-bold mt-2">842</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">التقارير المعلقة</h3>
-          <p class="text-2xl font-bold mt-2">12</p>
-        </div>
-        <div class="bg-white p-6 rounded-xl shadow">
-          <h3 class="text-gray-500 text-sm font-medium">الإيرادات الشهرية</h3>
-          <p class="text-2xl font-bold mt-2">٢٥٠,٠٠٠ ر.س</p>
-        </div>
-      </div>
-
-      <div class="bg-white p-6 rounded-xl shadow">
-        <h2 class="text-xl font-bold text-gray-800 mb-4">أحدث المستخدمين</h2>
-        <div class="overflow-x-auto">
-          <table class="min-w-full divide-y divide-gray-200">
-            <thead class="bg-gray-50">
-              <tr>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النوع</th>
-                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ الانضمام</th>
-              </tr>
-            </thead>
-            <tbody class="bg-white divide-y divide-gray-200">
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">أحمد محمد</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ahmed@example.com</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مستخدم</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٤-١٥</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">سارة علي</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">sara@example.com</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مستخدم</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٤-١٠</td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">خالد سعيد</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">khaled@example.com</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مسؤول</td>
-                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٣-٢٢</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </main>
-  </div>
-
-  <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const greetingEl = document.getElementById('greeting');
-      const logoutBtn = document.getElementById('logoutBtn');
-
-      // Security Gate: Validate session and role
-      const { data: { session } } = await window.supabase.auth.getSession();
-      if (!session) {
-        window.location.href = 'login.html';
-        return;
+      .animate-fade-in {
+        animation: fadeIn 0.5s ease-out forwards;
       }
-
-      const profile = await getProfile(session.user.id);
-      if (!profile || profile.role !== 'admin') {
-        window.location.href = 'login.html';
-        return;
+      .bar-fill {
+        transition: height 1s ease-out;
       }
+    </style>
+  </head>
+  <body
+    class="bg-gradient-to-br from-slate-50 via-indigo-50/40 to-cyan-50/40 min-h-screen text-slate-800 font-sans"
+  >
+    <div
+      id="auth-loading"
+      class="fixed inset-0 z-[100] bg-gradient-to-br from-slate-50 via-indigo-50 to-cyan-50 flex items-center justify-center"
+    >
+      <div class="text-center">
+        <div
+          class="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600 mx-auto mb-4"
+        ></div>
+        <p class="text-slate-600 font-medium">
+          جاري التحقق من صلاحيات المدير...
+        </p>
+      </div>
+    </div>
 
-      greetingEl.textContent = `مرحباً، ${profile.full_name}!`;
+    <div id="app-content" class="hidden">
+      <div
+        id="sidebar-backdrop"
+        class="fixed inset-0 bg-slate-900/30 z-40 hidden lg:hidden backdrop-blur-sm transition-opacity"
+      ></div>
+      <aside
+        id="sidebar"
+        class="fixed top-0 right-0 h-full w-72 glass border-l border-white/50 z-50 transform translate-x-full lg:translate-x-0 transition-transform duration-300 flex flex-col"
+      >
+        <div class="p-6 border-b border-slate-100">
+          <div class="flex items-center gap-3">
+            <div
+              class="h-10 w-10 rounded-xl bg-gradient-to-br from-indigo-600 to-violet-600 flex items-center justify-center text-white shadow-md"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+            </div>
+            <div>
+              <h2 class="text-lg font-black text-slate-800 leading-tight">
+                إدارتي
+              </h2>
+              <p
+                class="text-[10px] font-bold text-rose-600 uppercase tracking-wider"
+              >
+                لوحة المدير
+              </p>
+            </div>
+          </div>
+        </div>
+        <nav
+          id="sidebar-nav"
+          class="flex-1 p-4 space-y-1 overflow-y-auto"
+        ></nav>
+        <div class="p-4 border-t border-slate-100">
+          <button
+            onclick="App.logout()"
+            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-rose-600 hover:bg-rose-50 transition-all font-medium text-sm"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"
+              ></path>
+            </svg>
+            تسجيل الخروج
+          </button>
+        </div>
+      </aside>
 
-      logoutBtn.addEventListener('click', async () => {
-        await window.supabase.auth.signOut();
-        window.location.href = 'login.html';
-      });
-    });
-  </script>
-</body>
+      <div class="lg:mr-72 min-h-screen flex flex-col">
+        <header
+          class="sticky top-0 z-30 glass border-b border-white/40 px-6 py-3 flex items-center justify-between"
+        >
+          <div class="flex items-center gap-3">
+            <button
+              id="mobile-toggle"
+              class="lg:hidden p-2 rounded-lg hover:bg-slate-100 text-slate-600 transition-colors"
+            >
+              <svg
+                class="w-6 h-6"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                ></path>
+              </svg>
+            </button>
+            <h1 class="text-lg font-bold text-slate-800">لوحة المدير</h1>
+          </div>
+          <div id="header-user"></div>
+        </header>
+
+        <main class="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto w-full">
+          <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+            <div class="glass rounded-2xl p-5 hover-lift animate-fade-in">
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-indigo-100 flex items-center justify-center text-indigo-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span id="stat-users" class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">المستخدمين</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.1s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-violet-100 flex items-center justify-center text-violet-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"
+                    ></path>
+                  </svg>
+                </div>
+                <span id="stat-reqs" class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">إجمالي الطلبات</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.2s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-amber-100 flex items-center justify-center text-amber-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    ></path>
+                  </svg>
+                </div>
+                <span
+                  id="stat-pending"
+                  class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">قيد الانتظار</p>
+            </div>
+            <div
+              class="glass rounded-2xl p-5 hover-lift animate-fade-in"
+              style="animation-delay: 0.3s"
+            >
+              <div class="flex items-center justify-between mb-3">
+                <div
+                  class="h-10 w-10 rounded-xl bg-cyan-100 flex items-center justify-center text-cyan-600"
+                >
+                  <svg
+                    class="w-5 h-5"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                    ></path>
+                  </svg>
+                </div>
+                <span id="stat-today" class="text-2xl font-black text-slate-800"
+                  >0</span
+                >
+              </div>
+              <p class="text-sm font-semibold text-slate-500">طلبات اليوم</p>
+            </div>
+          </div>
+
+          <div
+            class="glass rounded-2xl shadow-lg p-6 mb-8 animate-fade-in"
+            style="animation-delay: 0.2s"
+          >
+            <h2 class="text-lg font-bold text-slate-800 mb-4">
+              نشاط الطلبات (آخر 7 أيام)
+            </h2>
+            <div
+              id="chart-container"
+              class="flex items-end justify-between gap-2 h-40 px-2"
+            >
+              <div class="w-full text-center text-sm text-slate-400 py-10">
+                جاري التحميل...
+              </div>
+            </div>
+          </div>
+
+          <div
+            id="requests"
+            class="glass rounded-2xl shadow-lg overflow-hidden mb-8 animate-fade-in"
+            style="animation-delay: 0.3s"
+          >
+            <div
+              class="p-6 border-b border-slate-100 flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold text-slate-800">جميع الطلبات</h2>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-right">
+                <thead
+                  class="bg-slate-50/80 text-slate-600 font-bold text-xs uppercase tracking-wider"
+                >
+                  <tr>
+                    <th class="px-6 py-4">المقدم</th>
+                    <th class="px-6 py-4">المصدر</th>
+                    <th class="px-6 py-4">القسم</th>
+                    <th class="px-6 py-4">الحالة</th>
+                    <th class="px-6 py-4">التاريخ</th>
+                    <th class="px-6 py-4">إجراء</th>
+                  </tr>
+                </thead>
+                <tbody id="req-table" class="divide-y divide-slate-100">
+                  <tr>
+                    <td
+                      colspan="6"
+                      class="px-6 py-12 text-center text-slate-400"
+                    >
+                      جاري التحميل...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div
+            id="users"
+            class="glass rounded-2xl shadow-lg overflow-hidden animate-fade-in"
+            style="animation-delay: 0.4s"
+          >
+            <div
+              class="p-6 border-b border-slate-100 flex items-center justify-between"
+            >
+              <h2 class="text-lg font-bold text-slate-800">المستخدمين</h2>
+            </div>
+            <div class="overflow-x-auto">
+              <table class="w-full text-sm text-right">
+                <thead
+                  class="bg-slate-50/80 text-slate-600 font-bold text-xs uppercase tracking-wider"
+                >
+                  <tr>
+                    <th class="px-6 py-4">الاسم</th>
+                    <th class="px-6 py-4">البريد</th>
+                    <th class="px-6 py-4">الدور</th>
+                    <th class="px-6 py-4">تاريخ التسجيل</th>
+                  </tr>
+                </thead>
+                <tbody id="users-table" class="divide-y divide-slate-100">
+                  <tr>
+                    <td
+                      colspan="4"
+                      class="px-6 py-12 text-center text-slate-400"
+                    >
+                      جاري التحميل...
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </main>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="app.js"></script>
+    <script>
+      (async () => {
+        await App.init();
+        const ok = await App.requireAdmin();
+        if (!ok) return;
+        document.getElementById("auth-loading").style.display = "none";
+        document.getElementById("app-content").classList.remove("hidden");
+        App.renderSidebar("admin", "admin");
+        App.renderUserHeader();
+
+        async function loadStats() {
+          const today = new Date();
+          today.setHours(0, 0, 0, 0);
+          const [{ count: u }, { count: r }, { count: p }, { data: t }] =
+            await Promise.all([
+              window.supabase
+                .from("profiles")
+                .select("*", { count: "exact", head: true }),
+              window.supabase
+                .from("requests")
+                .select("*", { count: "exact", head: true }),
+              window.supabase
+                .from("requests")
+                .select("*", { count: "exact", head: true })
+                .eq("status", "pending"),
+              window.supabase
+                .from("requests")
+                .select("id")
+                .gte("created_at", today.toISOString()),
+            ]);
+          document.getElementById("stat-users").textContent = u || 0;
+          document.getElementById("stat-reqs").textContent = r || 0;
+          document.getElementById("stat-pending").textContent = p || 0;
+          document.getElementById("stat-today").textContent = (t || []).length;
+        }
+
+        async function loadChart() {
+          const days = [];
+          const labels = [];
+          const counts = {};
+          for (let i = 6; i >= 0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            const k = d.toISOString().split("T")[0];
+            days.push(k);
+            labels.push(d.toLocaleDateString("ar-SA", { weekday: "short" }));
+            counts[k] = 0;
+          }
+          const start = days[0] + "T00:00:00";
+          const { data } = await window.supabase
+            .from("requests")
+            .select("created_at")
+            .gte("created_at", start);
+          (data || []).forEach((r) => {
+            const k = r.created_at.split("T")[0];
+            if (counts[k] !== undefined) counts[k]++;
+          });
+          const max = Math.max(...Object.values(counts), 1);
+          document.getElementById("chart-container").innerHTML = days
+            .map(
+              (d, i) => `
+      <div class="flex-1 flex flex-col items-center gap-2">
+        <div class="w-full bg-slate-100 rounded-t-lg relative h-32 overflow-hidden">
+          <div class="absolute bottom-0 right-0 left-0 bg-gradient-to-t from-indigo-500 to-violet-400 rounded-t-lg bar-fill" style="height:${(counts[d] / max) * 100}%"></div>
+        </div>
+        <span class="text-xs font-bold text-slate-500">${labels[i]}</span>
+        <span class="text-xs font-black text-indigo-600">${counts[d]}</span>
+      </div>`,
+            )
+            .join("");
+        }
+
+        async function loadRequests() {
+          const { data, error } = await window.supabase
+            .from("requests")
+            .select("*")
+            .order("created_at", { ascending: false });
+          if (error) {
+            App.toast(error.message, "error");
+            return;
+          }
+          const tb = document.getElementById("req-table");
+          if (!data || data.length === 0) {
+            tb.innerHTML =
+              '<tr><td colspan="6" class="px-6 py-12 text-center text-slate-400">لا توجد طلبات</td></tr>';
+            return;
+          }
+          tb.innerHTML = data
+            .map(
+              (r) => `
+      <tr class="hover:bg-white/50 transition-colors">
+        <td class="px-6 py-4 font-medium text-slate-700">${r.full_name || "-"}</td>
+        <td class="px-6 py-4"><span class="inline-flex px-2 py-0.5 rounded text-[10px] font-bold uppercase ${r.source === "public" ? "bg-slate-100 text-slate-600" : "bg-indigo-100 text-indigo-600"}">${r.source === "public" ? "عام" : "موظف"}</span></td>
+        <td class="px-6 py-4 text-slate-600">${r.department || "-"}</td>
+        <td class="px-6 py-4">
+          <select onchange="updateStatus('${r.id}',this.value)" class="text-xs font-bold rounded-lg border px-2 py-1 outline-none cursor-pointer ${App.statusStyle(r.status)} bg-transparent">
+            <option value="pending" ${r.status === "pending" ? "selected" : ""}>قيد الانتظار</option>
+            <option value="in_progress" ${r.status === "in_progress" ? "selected" : ""}>قيد التنفيذ</option>
+            <option value="approved" ${r.status === "approved" ? "selected" : ""}>تمت الموافقة</option>
+            <option value="rejected" ${r.status === "rejected" ? "selected" : ""}>مرفوض</option>
+          </select>
+        </td>
+        <td class="px-6 py-4 text-slate-500 text-xs whitespace-nowrap">${App.fmtDate(r.created_at)}</td>
+        <td class="px-6 py-4">
+          <button onclick="deleteReq('${r.id}')" class="p-1.5 rounded-lg hover:bg-rose-50 text-slate-400 hover:text-rose-500 transition-colors" title="حذف">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+          </button>
+        </td>
+      </tr>`,
+            )
+            .join("");
+        }
+
+        async function loadUsers() {
+          const { data, error } = await window.supabase
+            .from("profiles")
+            .select("*")
+            .order("created_at", { ascending: false });
+          if (error) {
+            App.toast(error.message, "error");
+            return;
+          }
+          const tb = document.getElementById("users-table");
+          if (!data || data.length === 0) {
+            tb.innerHTML =
+              '<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400">لا يوجد مستخدمون</td></tr>';
+            return;
+          }
+          tb.innerHTML = data
+            .map(
+              (u) => `
+      <tr class="hover:bg-white/50 transition-colors">
+        <td class="px-6 py-4 font-medium text-slate-700">${u.full_name || "-"}</td>
+        <td class="px-6 py-4 text-slate-600 text-xs">${u.email || "-"}</td>
+        <td class="px-6 py-4"><span class="inline-flex px-2.5 py-1 rounded-lg text-xs font-bold border ${u.role === "admin" ? "bg-rose-100 text-rose-700 border-rose-200" : "bg-indigo-100 text-indigo-700 border-indigo-200"}">${u.role === "admin" ? "مدير" : "موظف"}</span></td>
+        <td class="px-6 py-4 text-slate-500 text-xs whitespace-nowrap">${App.fmtDate(u.created_at)}</td>
+      </tr>`,
+            )
+            .join("");
+        }
+
+        window.updateStatus = async (id, status) => {
+          const { error } = await window.supabase
+            .from("requests")
+            .update({ status })
+            .eq("id", id);
+          if (error) {
+            App.toast(error.message, "error");
+          } else {
+            App.toast("تم تحديث الحالة", "success");
+            loadStats();
+          }
+        };
+
+        window.deleteReq = async (id) => {
+          if (!confirm("هل أنت متأكد من حذف هذا الطلب؟")) return;
+          const { error } = await window.supabase
+            .from("requests")
+            .delete()
+            .eq("id", id);
+          if (error) {
+            App.toast(error.message, "error");
+          } else {
+            App.toast("تم الحذف بنجاح", "success");
+            loadRequests();
+            loadStats();
+            loadChart();
+          }
+        };
+
+        loadStats();
+        loadChart();
+        loadRequests();
+        loadUsers();
+      })();
+    </script>
+  </body>
 </html>
+
