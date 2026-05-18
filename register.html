@@ -1,213 +1,128 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>إنشاء حساب - إدارتي أونلاين</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>إنشاء حساب - إدارتي أونلاين</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#1E40AF'
+          }
+        }
       }
-      body {
-        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-      }
-      .register-container {
-        background: white;
-        border-radius: 30px;
-        padding: 50px;
-        width: 100%;
-        max-width: 500px;
-        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      }
-      h1 {
-        text-align: center;
-        color: #333;
-        margin-bottom: 10px;
-      }
-      .subtitle {
-        text-align: center;
-        color: #666;
-        margin-bottom: 30px;
-      }
-      .form-group {
-        margin-bottom: 20px;
-        text-align: right;
-      }
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: bold;
-        color: #555;
-      }
-      input {
-        width: 100%;
-        padding: 15px;
-        border: 2px solid #e0e0e0;
-        border-radius: 12px;
-        font-size: 1rem;
-        font-family: inherit;
-      }
-      input:focus {
-        outline: none;
-        border-color: #667eea;
-      }
-      button {
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border: none;
-        border-radius: 12px;
-        font-size: 1.1rem;
-        font-weight: bold;
-        cursor: pointer;
-        transition: 0.3s;
-      }
-      button:hover {
-        transform: translateY(-2px);
-      }
-      .login-link {
-        text-align: center;
-        margin-top: 20px;
-        color: #666;
-      }
-      .login-link a {
-        color: #667eea;
-        text-decoration: none;
-        font-weight: bold;
-      }
-      .error,
-      .success {
-        padding: 12px;
-        border-radius: 8px;
-        margin-bottom: 20px;
-        display: none;
-      }
-      .error {
-        background: #fee;
-        color: #c33;
-      }
-      .success {
-        background: #efe;
-        color: #3c3;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="register-container">
-      <h1>إنشاء حساب جديد</h1>
-      <p class="subtitle">انضم إلى منصة إدارتي أونلاين</p>
-      <div id="errorMsg" class="error"></div>
-      <div id="successMsg" class="success"></div>
-      <form id="registerForm">
-        <div class="form-group">
-          <label>اسم المستخدم</label>
-          <input
-            type="text"
-            id="username"
-            required
-            placeholder="أدخل اسم المستخدم"
-          />
+    }
+  </script>
+</head>
+<body class="bg-gray-50 flex items-center justify-center min-h-screen p-4">
+  <div class="w-full max-w-md bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div class="p-8">
+      <h1 class="text-3xl font-bold text-center text-gray-800 mb-2">أنشئ حسابك</h1>
+      <p class="text-gray-500 text-center mb-8">ابدأ رحلتك مع إدارتي أونلاين</p>
+
+      <div id="errorAlert" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-6 text-sm"></div>
+
+      <form id="registerForm" class="space-y-6">
+        <div>
+          <label for="fullName" class="block text-sm font-medium text-gray-700 mb-1">الاسم الكامل</label>
+          <input type="text" id="fullName" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" 
+            placeholder="أدخل اسمك الكامل" />
         </div>
-        <div class="form-group">
-          <label>البريد الإلكتروني</label>
-          <input
-            type="email"
-            id="email"
-            required
-            placeholder="example@univ-ouargla.dz"
-          />
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">البريد الإلكتروني</label>
+          <input type="email" id="email" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition" 
+            placeholder="أدخل بريدك الإلكتروني" />
         </div>
-        <div class="form-group">
-          <label>كلمة المرور</label>
-          <input
-            type="password"
-            id="password"
-            required
-            placeholder="********"
-          />
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">كلمة المرور</label>
+          <input type="password" id="password" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition"
+            placeholder="أدخل كلمة مرور قوية" />
         </div>
-        <div class="form-group">
-          <label>تأكيد كلمة المرور</label>
-          <input
-            type="password"
-            id="confirmPassword"
-            required
-            placeholder="********"
-          />
+        <div>
+          <label for="role" class="block text-sm font-medium text-gray-700 mb-1">النوع</label>
+          <select id="role" required
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent transition">
+            <option value="" disabled selected>اختر نوع الحساب</option>
+            <option value="user">مستخدم عادي</option>
+            <option value="admin">مسؤول</option>
+          </select>
         </div>
-        <button type="submit">إنشاء حساب</button>
+        <button type="submit" id="submitButton"
+          class="w-full bg-gradient-to-r from-primary to-secondary text-white py-3 px-4 rounded-lg font-medium hover:opacity-90 transition flex items-center justify-center">
+          <span id="buttonText">إنشاء الحساب</span>
+          <svg id="spinner" class="hidden animate-spin -ml-1 mr-2 h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+        </button>
       </form>
-      <div class="login-link">
-        لديك حساب بالفعل؟ <a href="login.html">تسجيل الدخول</a>
-      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js"></script>
-    <script>
-      document
-        .getElementById("registerForm")
-        .addEventListener("submit", async (e) => {
-          e.preventDefault();
-          const username = document.getElementById("username").value.trim();
-          const email = document.getElementById("email").value.trim();
-          const password = document.getElementById("password").value;
-          const confirm = document.getElementById("confirmPassword").value;
-          const errEl = document.getElementById("errorMsg");
-          const okEl = document.getElementById("successMsg");
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const registerForm = document.getElementById('registerForm');
+      const fullNameInput = document.getElementById('fullName');
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const roleSelect = document.getElementById('role');
+      const submitButton = document.getElementById('submitButton');
+      const buttonText = document.getElementById('buttonText');
+      const spinner = document.getElementById('spinner');
+      const errorAlert = document.getElementById('errorAlert');
 
-          errEl.style.display = "none";
-          okEl.style.display = "none";
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorAlert.classList.add('hidden');
+        submitButton.disabled = true;
+        buttonText.classList.add('hidden');
+        spinner.classList.remove('hidden');
 
-          if (password !== confirm) {
-            errEl.textContent = "كلمة المرور غير متطابقة";
-            errEl.style.display = "block";
-            return;
-          }
-          if (password.length < 6) {
-            errEl.textContent = "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
-            errEl.style.display = "block";
-            return;
-          }
+        const fullName = fullNameInput.value.trim();
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+        const role = roleSelect.value;
 
-          try {
-            const { data, error } = await supabase.auth.signUp({
-              email,
-              password,
-              options: { data: { username, role: "user" } },
-            });
-            if (error) throw error;
-
-            // Also insert a row into the profiles table
-            if (data.user) {
-              await supabase.from("profiles").upsert({
-                id: data.user.id,
-                username,
-                email,
-                role: "user",
-              });
-            }
-
-            okEl.textContent =
-              "تم إنشاء الحساب بنجاح! يمكنك تسجيل الدخول الآن.";
-            okEl.style.display = "block";
-            setTimeout(() => {
-              window.location.href = "login.html";
-            }, 2000);
-          } catch (err) {
-            errEl.textContent = err.message || "حدث خطأ أثناء التسجيل";
-            errEl.style.display = "block";
+        const { data, error } = await window.supabase.auth.signUp({
+          email,
+          password,
+          options: {
+            data: { full_name: fullName }
           }
         });
-    </script>
-  </body>
+
+        if (error) {
+          errorAlert.textContent = error.message || 'حدث خطأ أثناء التسجيل.';
+          errorAlert.classList.remove('hidden');
+        } else if (data.user) {
+          // Insert into profiles table
+          const { error: profileError } = await window.supabase
+            .from('profiles')
+            .insert({ id: data.user.id, full_name: fullName, role });
+
+          if (profileError) {
+            errorAlert.textContent = 'تم إنشاء الحساب، لكن حدث خطأ عند إنشاء الملف الشخصي: ' + profileError.message;
+            errorAlert.classList.remove('hidden');
+          } else {
+            window.location.href = 'login.html';
+            return;
+          }
+        }
+
+        submitButton.disabled = false;
+        buttonText.classList.remove('hidden');
+        spinner.classList.add('hidden');
+      });
+    });
+  </script>
+</body>
 </html>

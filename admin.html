@@ -1,922 +1,129 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, user-scalable=yes"
-    />
-    <title>لوحة الإدارة | إدارتي أونلاين - كلية الرياضيات وعلوم المادة</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-
-    <!-- Google Fonts -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap"
-      rel="stylesheet"
-    />
-
-    <!-- Font Awesome 6 -->
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-    />
-
-    <!-- Chart.js for Analytics -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
-
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: { sans: ["Cairo", "sans-serif"] },
-            colors: {
-              primary: "#1e3a8a",
-              secondary: "#3b82f6",
-              accent: "#f59e0b",
-              danger: "#dc2626",
-              success: "#10b981",
-            },
-          },
-        },
-      };
-    </script>
-
-    <style>
-      * {
-        font-family: "Cairo", sans-serif;
-      }
-      body {
-        background: #f1f5f9;
-      }
-
-      /* Smooth transitions & card effects */
-      .admin-card {
-        transition: all 0.25s ease;
-        border: 1px solid rgba(0, 0, 0, 0.05);
-      }
-      .admin-card:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 12px 24px -12px rgba(0, 0, 0, 0.2);
-        border-color: #e2e8f0;
-      }
-
-      /* Custom scrollbar */
-      ::-webkit-scrollbar {
-        width: 6px;
-        height: 6px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #e2e8f0;
-        border-radius: 8px;
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #94a3b8;
-        border-radius: 8px;
-      }
-
-      /* Table row animations */
-      .fade-row {
-        animation: fadeSlide 0.25s ease-out;
-      }
-      @keyframes fadeSlide {
-        from {
-          opacity: 0;
-          transform: translateX(10px);
-        }
-        to {
-          opacity: 1;
-          transform: translateX(0);
-        }
-      }
-
-      /* Status badges */
-      .status-badge {
-        @apply px-2.5 py-1 rounded-full text-xs font-semibold inline-flex items-center gap-1 shadow-sm;
-      }
-      .status-pending {
-        background: #fef3c7;
-        color: #b45309;
-        border-right: 2px solid #f59e0b;
-      }
-      .status-approved {
-        background: #d1fae5;
-        color: #065f46;
-        border-right: 2px solid #10b981;
-      }
-      .status-rejected {
-        background: #fee2e2;
-        color: #991b1b;
-        border-right: 2px solid #ef4444;
-      }
-
-      /* Sidebar active link */
-      .sidebar-link.active {
-        background: #1e3a8a;
-        color: white;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-      }
-      .sidebar-link.active i {
-        color: white;
-      }
-
-      /* Modal backdrop */
-      .modal-backdrop {
-        background-color: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(4px);
-      }
-
-      /* toast */
-      .toast-slide {
-        animation: toastIn 0.3s ease forwards;
-      }
-      @keyframes toastIn {
-        from {
-          transform: translateX(50px);
-          opacity: 0;
-        }
-        to {
-          transform: translateX(0);
-          opacity: 1;
-        }
-      }
-
-      /* loading spinner */
-      .spinner {
-        border: 2px solid #e2e8f0;
-        border-top: 2px solid #1e3a8a;
-        border-radius: 50%;
-        width: 20px;
-        height: 20px;
-        animation: spin 0.8s linear infinite;
-        display: inline-block;
-      }
-      @keyframes spin {
-        0% {
-          transform: rotate(0deg);
-        }
-        100% {
-          transform: rotate(360deg);
-        }
-      }
-
-      /* responsive table */
-      @media (max-width: 768px) {
-        .responsive-table thead {
-          display: none;
-        }
-        .responsive-table tr {
-          display: block;
-          margin-bottom: 1rem;
-          border: 1px solid #e2e8f0;
-          border-radius: 12px;
-          background: white;
-        }
-        .responsive-table td {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 0.75rem;
-          border-bottom: 1px solid #f1f5f9;
-          text-align: right;
-        }
-        .responsive-table td::before {
-          content: attr(data-label);
-          font-weight: 700;
-          font-size: 0.75rem;
-          color: #475569;
-          margin-left: 1rem;
-        }
-        .responsive-table td:last-child {
-          border-bottom: none;
-        }
-      }
-    </style>
-  </head>
-  <body class="antialiased">
-    <!-- MAIN LAYOUT: SIDEBAR + CONTENT -->
-    <div class="flex h-screen overflow-hidden">
-      <!-- ========== SIDEBAR (ADMIN PANEL) ========== -->
-      <aside
-        class="w-72 bg-white shadow-xl border-l border-gray-100 flex flex-col fixed inset-y-0 right-0 z-30 transition-all duration-300 overflow-y-auto"
-        id="sidebar"
-      >
-        <!-- Logo + University brand -->
-        <div class="p-5 border-b border-gray-100">
-          <div class="flex items-center gap-3">
-            <div class="bg-primary/10 p-2 rounded-xl">
-              <img
-                src="https://whatthelogo.com/logo/universite-kasdi-merbah-ouargla/91530"
-                alt="University Logo"
-                class="h-10 w-auto object-contain"
-                onerror="this.src='https://via.placeholder.com/40?text=UKMO'"
-              />
-            </div>
-            <div>
-              <h1 class="font-extrabold text-gray-800 text-lg">
-                إدارتي أونلاين
-              </h1>
-              <p class="text-[11px] text-gray-500">لوحة إدارة الكلية</p>
-            </div>
-          </div>
-          <div class="mt-4 pt-2 text-xs text-gray-400 border-t border-gray-50">
-            كلية الرياضيات وعلوم المادة
-          </div>
-        </div>
-
-        <!-- Admin Profile Summary -->
-        <div class="p-4 border-b border-gray-100 bg-gray-50/40 m-2 rounded-xl">
-          <div class="flex items-center gap-3">
-            <div
-              class="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-md"
-            >
-              <span class="text-white font-bold text-lg">م</span>
-            </div>
-            <div class="flex-1">
-              <p class="font-bold text-gray-800 text-sm" id="adminName">
-                مدير النظام
-              </p>
-              <p class="text-[11px] text-gray-500" id="adminEmail">
-                admin@univ-ouargla.dz
-              </p>
-            </div>
-            <i class="fa-solid fa-shield-haltered text-primary/60 text-sm"></i>
-          </div>
-        </div>
-
-        <!-- Navigation Menu -->
-        <nav class="flex-1 px-3 py-4 space-y-1">
-          <a
-            href="#"
-            onclick="switchSection('dashboard')"
-            class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-primary/5 transition-all duration-200 group active"
-            id="nav-dashboard"
-          >
-            <i
-              class="fa-solid fa-chart-line w-5 text-gray-400 group-hover:text-primary"
-            ></i>
-            <span class="font-medium">لوحة القيادة</span>
-          </a>
-          <a
-            href="#"
-            onclick="switchSection('requests')"
-            class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-primary/5 transition-all"
-            id="nav-requests"
-          >
-            <i class="fa-solid fa-file-alt w-5 text-gray-400"></i>
-            <span class="font-medium">الطلبات الواردة</span>
-            <span
-              id="pendingBadge"
-              class="mr-auto bg-danger/20 text-danger text-xs font-bold px-2 py-0.5 rounded-full hidden"
-              >0</span
-            >
-          </a>
-          <a
-            href="#"
-            onclick="switchSection('users')"
-            class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-primary/5 transition-all"
-            id="nav-users"
-          >
-            <i class="fa-solid fa-users w-5 text-gray-400"></i>
-            <span class="font-medium">المستخدمون</span>
-          </a>
-          <a
-            href="#"
-            onclick="switchSection('analytics')"
-            class="sidebar-link flex items-center gap-3 px-4 py-3 rounded-xl text-gray-700 hover:bg-primary/5 transition-all"
-            id="nav-analytics"
-          >
-            <i class="fa-solid fa-chart-simple w-5 text-gray-400"></i>
-            <span class="font-medium">إحصائيات</span>
-          </a>
-        </nav>
-
-        <!-- logout (simulated) -->
-        <div class="p-4 border-t border-gray-100 mt-2">
-          <button
-            onclick="logoutAdmin()"
-            class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-red-600 hover:bg-red-50 transition-all"
-          >
-            <i class="fa-solid fa-sign-out-alt"></i>
-            <span class="font-medium">تسجيل الخروج</span>
-          </button>
-        </div>
-      </aside>
-
-      <!-- ========== MAIN CONTENT AREA ========== -->
-      <main class="flex-1 mr-72 overflow-y-auto bg-gray-50" id="mainContent">
-        <!-- Top Header -->
-        <div
-          class="bg-white sticky top-0 z-20 shadow-sm px-6 py-4 flex justify-between items-center border-b"
-        >
-          <div class="flex items-center gap-2">
-            <i
-              class="fa-solid fa-bars-staggered text-gray-500 text-xl cursor-pointer md:hidden"
-              onclick="toggleSidebar()"
-            ></i>
-            <h2 class="text-xl font-bold text-gray-800" id="pageTitle">
-              لوحة القيادة
-            </h2>
-          </div>
-          <div class="flex items-center gap-3">
-            <div class="relative">
-              <i class="fa-regular fa-bell text-gray-500 text-xl"></i>
-              <span
-                class="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center"
-                >3</span
-              >
-            </div>
-            <div
-              class="flex items-center gap-2 bg-gray-100 rounded-full px-3 py-1.5"
-            >
-              <i class="fa-regular fa-clock text-gray-500 text-sm"></i>
-              <span
-                class="text-sm font-mono text-gray-600"
-                id="liveClock"
-              ></span>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== DASHBOARD SECTION ===== -->
-        <div id="dashboardSection" class="p-6">
-          <!-- Stats Cards -->
-          <div
-            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8"
-          >
-            <div class="bg-white rounded-2xl shadow-sm border p-5 admin-card">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-gray-500 text-sm">الطلبات الكلية</p>
-                  <p
-                    class="text-3xl font-black text-gray-800 mt-1"
-                    id="totalRequests"
-                  >
-                    0
-                  </p>
-                </div>
-                <div
-                  class="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center"
-                >
-                  <i class="fa-solid fa-file-lines text-blue-600 text-xl"></i>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white rounded-2xl shadow-sm border p-5 admin-card">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-gray-500 text-sm">قيد الانتظار</p>
-                  <p
-                    class="text-3xl font-black text-amber-600 mt-1"
-                    id="pendingRequests"
-                  >
-                    0
-                  </p>
-                </div>
-                <div
-                  class="w-12 h-12 bg-amber-50 rounded-xl flex items-center justify-center"
-                >
-                  <i
-                    class="fa-solid fa-hourglass-half text-amber-600 text-xl"
-                  ></i>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white rounded-2xl shadow-sm border p-5 admin-card">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-gray-500 text-sm">تمت الموافقة</p>
-                  <p
-                    class="text-3xl font-black text-green-600 mt-1"
-                    id="approvedRequests"
-                  >
-                    0
-                  </p>
-                </div>
-                <div
-                  class="w-12 h-12 bg-green-50 rounded-xl flex items-center justify-center"
-                >
-                  <i
-                    class="fa-solid fa-check-circle text-green-600 text-xl"
-                  ></i>
-                </div>
-              </div>
-            </div>
-            <div class="bg-white rounded-2xl shadow-sm border p-5 admin-card">
-              <div class="flex items-center justify-between">
-                <div>
-                  <p class="text-gray-500 text-sm">مستخدمين نشطين</p>
-                  <p
-                    class="text-3xl font-black text-purple-600 mt-1"
-                    id="activeUsers"
-                  >
-                    12
-                  </p>
-                </div>
-                <div
-                  class="w-12 h-12 bg-purple-50 rounded-xl flex items-center justify-center"
-                >
-                  <i class="fa-solid fa-user-check text-purple-600 text-xl"></i>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Charts Row -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
-            <div class="bg-white p-5 rounded-2xl shadow-sm border">
-              <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-chart-pie text-primary"></i> توزيع الطلبات
-                حسب النوع
-              </h3>
-              <canvas id="requestsChart" height="200"></canvas>
-            </div>
-            <div class="bg-white p-5 rounded-2xl shadow-sm border">
-              <h3 class="font-bold text-gray-800 mb-3 flex items-center gap-2">
-                <i class="fa-solid fa-chart-line text-primary"></i> أسبوعية
-                الطلبات
-              </h3>
-              <canvas id="trendChart" height="200"></canvas>
-            </div>
-          </div>
-
-          <!-- Recent Activity -->
-          <div class="bg-white rounded-2xl shadow-sm border overflow-hidden">
-            <div
-              class="px-6 py-4 border-b bg-gray-50/40 flex justify-between items-center"
-            >
-              <h3 class="font-bold text-gray-800">
-                <i class="fa-regular fa-clock ml-2"></i> آخر النشاطات
-              </h3>
-              <span class="text-xs text-gray-400">آخر 5 طلبات</span>
-            </div>
-            <div class="divide-y" id="recentActivitiesList">
-              <!-- dynamic -->
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== REQUESTS MANAGEMENT SECTION ===== -->
-        <div id="requestsSection" class="p-6 hidden">
-          <div class="bg-white rounded-2xl shadow-sm overflow-hidden">
-            <div class="px-6 py-4 border-b bg-gray-50/50">
-              <h3 class="font-bold text-lg text-gray-800">
-                <i class="fa-solid fa-inbox ml-2 text-primary"></i> إدارة
-                الطلبات (تحديث الحالة)
-              </h3>
-              <p class="text-xs text-gray-500 mt-1">
-                مراجعة الطلبات الواردة وتعديل الحالة (قيد المعالجة / تم / مرفوض)
-              </p>
-            </div>
-            <div class="overflow-x-auto">
-              <table class="w-full text-right" id="requestsTable">
-                <thead class="bg-gray-100 text-gray-700 text-sm">
-                  <tr>
-                    <th class="px-5 py-3">#</th>
-                    <th class="px-5 py-3">نوع الطلب</th>
-                    <th class="px-5 py-3">مقدم الطلب</th>
-                    <th class="px-5 py-3">التفاصيل</th>
-                    <th class="px-5 py-3">التاريخ</th>
-                    <th class="px-5 py-3">الحالة</th>
-                    <th class="px-5 py-3">إجراء</th>
-                  </tr>
-                </thead>
-                <tbody id="requestsTableBody" class="text-sm divide-y"></tbody>
-              </table>
-            </div>
-            <div
-              id="noRequestsMsg"
-              class="text-center py-12 text-gray-400 hidden"
-            >
-              <i class="fa-regular fa-folder-open text-5xl mb-2"></i><br />لا
-              توجد طلبات حالياً
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== USERS SECTION ===== -->
-        <div id="usersSection" class="p-6 hidden">
-          <div class="bg-white rounded-2xl shadow-sm border p-6 text-center">
-            <i class="fa-solid fa-users-gear text-6xl text-gray-300 mb-3"></i>
-            <h3 class="text-xl font-bold text-gray-700">إدارة المستخدمين</h3>
-            <p class="text-gray-500 mt-2">
-              لوحة تحكم لإدارة الحسابات والصلاحيات (محاكاة)
-            </p>
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 text-right">
-              <div
-                class="bg-gray-50 p-4 rounded-xl flex items-center justify-between"
-              >
-                <span
-                  ><i class="fa-regular fa-user ml-2"></i> أساتذة وباحثون</span
-                >
-                <span class="font-bold">24</span>
-              </div>
-              <div
-                class="bg-gray-50 p-4 rounded-xl flex items-center justify-between"
-              >
-                <span
-                  ><i class="fa-regular fa-building ml-2"></i> موظفين
-                  إداريين</span
-                >
-                <span class="font-bold">16</span>
-              </div>
-              <div
-                class="bg-gray-50 p-4 rounded-xl flex items-center justify-between"
-              >
-                <span
-                  ><i class="fa-regular fa-flask ml-2"></i> طاقم المخابر</span
-                >
-                <span class="font-bold">9</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- ===== ANALYTICS SECTION ===== -->
-        <div id="analyticsSection" class="p-6 hidden">
-          <div class="bg-white rounded-2xl shadow-sm p-6">
-            <h3 class="font-bold text-xl text-gray-800 mb-4">تحليلات المنصة</h3>
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 mb-6">
-              <div class="border rounded-xl p-4 text-center bg-blue-50/20">
-                <p class="text-2xl font-black text-primary" id="analyticsTotal">
-                  0
-                </p>
-                <p class="text-gray-600 text-sm">إجمالي الطلبات</p>
-              </div>
-              <div class="border rounded-xl p-4 text-center bg-green-50/20">
-                <p
-                  class="text-2xl font-black text-success"
-                  id="analyticsCompleted"
-                >
-                  0
-                </p>
-                <p class="text-gray-600 text-sm">مكتملة</p>
-              </div>
-              <div class="border rounded-xl p-4 text-center bg-amber-50/20">
-                <p
-                  class="text-2xl font-black text-amber-600"
-                  id="analyticsPending"
-                >
-                  0
-                </p>
-                <p class="text-gray-600 text-sm">قيد المعالجة</p>
-              </div>
-            </div>
-            <canvas id="analyticsPieChart" height="180"></canvas>
-          </div>
-        </div>
-      </main>
-    </div>
-
-    <!-- Toast Notification -->
-    <div
-      id="toastMsg"
-      class="fixed bottom-6 left-6 bg-gray-900 text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 z-50 hidden transition-all"
-    >
-      <i class="fa-solid fa-circle-check text-green-400"></i>
-      <span id="toastText">تم التحديث</span>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js"></script>
-    <script>
-      // ---------- STATE ----------
-      let allRequests = [];
-      let currentAdminUser = null;
-      let currentAdminProfile = null;
-
-      // ---------- BOOT: Auth Check ----------
-      (async () => {
-        currentAdminUser = await requireAuth();
-        if (!currentAdminUser) return;
-
-        currentAdminProfile = await getProfile(currentAdminUser.id);
-
-        // Only admins may access this page
-        if (currentAdminProfile?.role !== "admin") {
-          window.location.href = "dashboard.html";
-          return;
-        }
-
-        // Show admin name in sidebar
-        const nameEl = document.getElementById("adminName");
-        const emailEl = document.getElementById("adminEmail");
-        if (nameEl)
-          nameEl.textContent = currentAdminProfile?.username || "مدير النظام";
-        if (emailEl) emailEl.textContent = currentAdminUser.email;
-
-        await loadRequests();
-        initCharts();
-        updateClock();
-        switchSection("dashboard");
-
-        // Realtime updates
-        subscribeToRequests(async () => {
-          await loadRequests();
-        });
-      })();
-
-      // ---------- DATA LAYER ----------
-      async function loadRequests() {
-        try {
-          allRequests = await fetchAllRequests();
-          refreshAllUI();
-        } catch (err) {
-          console.error("loadRequests error:", err);
-          showToast("خطأ في تحميل البيانات");
-        }
-      }
-
-      async function changeRequestStatus(id, newStatus) {
-        try {
-          await updateRequestStatus(id, newStatus);
-          const index = allRequests.findIndex((r) => r.id === id);
-          if (index !== -1) allRequests[index].status = newStatus;
-          refreshAllUI();
-          const labels = {
-            approved: "تمت الموافقة",
-            rejected: "مرفوض",
-            pending: "قيد المعالجة",
-          };
-          showToast(`تم تحديث الحالة: ${labels[newStatus]}`);
-        } catch (err) {
-          console.error(err);
-          showToast("فشل تحديث الحالة");
-        }
-      }
-
-      // ---------- UI REFRESH ----------
-      function refreshAllUI() {
-        updateStatsAndCharts();
-        renderRequestsTable();
-        renderRecentActivities();
-        updateAnalyticsCards();
-        updatePendingBadge();
-      }
-
-      function updateStatsAndCharts() {
-        const total = allRequests.length;
-        const pending = allRequests.filter(
-          (r) => r.status === "pending",
-        ).length;
-        const approved = allRequests.filter(
-          (r) => r.status === "approved",
-        ).length;
-        document.getElementById("totalRequests").innerText = total;
-        document.getElementById("pendingRequests").innerText = pending;
-        document.getElementById("approvedRequests").innerText = approved;
-        // active users: unique user_ids
-        const uniqueUsers = new Set(allRequests.map((r) => r.user_id)).size;
-        document.getElementById("activeUsers").innerText = uniqueUsers || 0;
-
-        const typeCount = {};
-        allRequests.forEach((req) => {
-          typeCount[req.type] = (typeCount[req.type] || 0) + 1;
-        });
-        const labels = Object.keys(typeCount).slice(0, 5);
-        const dataVals = Object.values(typeCount).slice(0, 5);
-        if (window.requestsChart) {
-          window.requestsChart.data.labels = labels;
-          window.requestsChart.data.datasets[0].data = dataVals;
-          window.requestsChart.update();
-        }
-        // trend: count requests per last 6 days
-        const today = new Date();
-        const dayLabels = [];
-        const dayCounts = [];
-        for (let i = 5; i >= 0; i--) {
-          const d = new Date(today);
-          d.setDate(d.getDate() - i);
-          const key = d.toISOString().slice(0, 10);
-          dayLabels.push(d.toLocaleDateString("ar-EG", { weekday: "short" }));
-          dayCounts.push(
-            allRequests.filter((r) => (r.created_at || "").startsWith(key))
-              .length,
-          );
-        }
-        if (window.trendChart) {
-          window.trendChart.data.labels = dayLabels;
-          window.trendChart.data.datasets[0].data = dayCounts;
-          window.trendChart.update();
-        }
-      }
-
-      function renderRequestsTable() {
-        const tbody = document.getElementById("requestsTableBody");
-        const noMsg = document.getElementById("noRequestsMsg");
-        if (!tbody) return;
-        tbody.innerHTML = "";
-        if (allRequests.length === 0) {
-          noMsg.classList.remove("hidden");
-          return;
-        }
-        noMsg.classList.add("hidden");
-        allRequests.forEach((req, idx) => {
-          const row = tbody.insertRow();
-          row.className = "border-b hover:bg-gray-50 transition fade-row";
-          let statusClass = "status-pending",
-            statusText = "قيد المعالجة",
-            icon = "fa-hourglass-half";
-          if (req.status === "approved") {
-            statusClass = "status-approved";
-            statusText = "تمت الموافقة";
-            icon = "fa-circle-check";
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>لوحة التحكم الإدارية - إدارتي أونلاين</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./app.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#3B82F6',
+            secondary: '#1E40AF'
           }
-          if (req.status === "rejected") {
-            statusClass = "status-rejected";
-            statusText = "مرفوض";
-            icon = "fa-circle-xmark";
-          }
-          const dateStr = req.created_at
-            ? new Date(req.created_at).toLocaleDateString("ar-EG")
-            : "-";
-          row.innerHTML = `
-                    <td class="px-5 py-3">${idx + 1}</td>
-                    <td class="px-5 py-3 font-medium">${req.type}</td>
-                    <td class="px-5 py-3">${req.user_name || "-"}</td>
-                    <td class="px-5 py-3 text-gray-500 max-w-[200px] truncate" title="${req.details}">${req.details || "-"}</td>
-                    <td class="px-5 py-3">${dateStr}</td>
-                    <td class="px-5 py-3"><span class="status-badge ${statusClass}"><i class="fa-regular ${icon} ml-1"></i> ${statusText}</span></td>
-                    <td class="px-5 py-3">
-                        <select onchange="changeRequestStatus(${req.id}, this.value)" class="text-xs border rounded-lg px-2 py-1 bg-white">
-                            <option value="pending"  ${req.status === "pending" ? "selected" : ""}>قيد المعالجة</option>
-                            <option value="approved" ${req.status === "approved" ? "selected" : ""}>تمت الموافقة</option>
-                            <option value="rejected" ${req.status === "rejected" ? "selected" : ""}>مرفوض</option>
-                        </select>
-                    </td>`;
-        });
-      }
-
-      function renderRecentActivities() {
-        const container = document.getElementById("recentActivitiesList");
-        if (!container) return;
-        const recent = [...allRequests]
-          .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
-          .slice(0, 5);
-        if (recent.length === 0) {
-          container.innerHTML =
-            '<div class="p-6 text-center text-gray-400">لا توجد أنشطة</div>';
-          return;
-        }
-        container.innerHTML = recent
-          .map(
-            (req) => `
-                <div class="flex items-center justify-between p-4 border-b last:border-0">
-                    <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full ${req.status === "pending" ? "bg-amber-100" : req.status === "approved" ? "bg-green-100" : "bg-red-100"} flex items-center justify-center">
-                            <i class="fa-solid fa-file-alt ${req.status === "pending" ? "text-amber-600" : req.status === "approved" ? "text-green-600" : "text-red-600"} text-sm"></i>
-                        </div>
-                        <div>
-                            <p class="font-medium text-gray-800 text-sm">${req.type}</p>
-                            <p class="text-xs text-gray-400">${req.user_name || "-"} • ${req.created_at ? new Date(req.created_at).toLocaleDateString("ar-EG") : "-"}</p>
-                        </div>
-                    </div>
-                    <span class="text-xs font-bold px-2 py-1 rounded-full ${req.status === "pending" ? "bg-amber-50 text-amber-700" : req.status === "approved" ? "bg-green-50 text-green-700" : "bg-red-50 text-red-700"}">${req.status === "pending" ? "جديد" : req.status === "approved" ? "موافق" : "مرفوض"}</span>
-                </div>`,
-          )
-          .join("");
-      }
-
-      function updateAnalyticsCards() {
-        const total = allRequests.length;
-        const completed = allRequests.filter(
-          (r) => r.status === "approved",
-        ).length;
-        const pending = allRequests.filter(
-          (r) => r.status === "pending",
-        ).length;
-        const rejected = allRequests.filter(
-          (r) => r.status === "rejected",
-        ).length;
-        document.getElementById("analyticsTotal").innerText = total;
-        document.getElementById("analyticsCompleted").innerText = completed;
-        document.getElementById("analyticsPending").innerText = pending;
-        if (window.analyticsPieChart) {
-          window.analyticsPieChart.data.datasets[0].data = [
-            completed,
-            pending,
-            rejected,
-          ];
-          window.analyticsPieChart.update();
         }
       }
+    }
+  </script>
+</head>
+<body class="bg-gray-100">
 
-      function updatePendingBadge() {
-        const pendingCount = allRequests.filter(
-          (r) => r.status === "pending",
-        ).length;
-        const badge = document.getElementById("pendingBadge");
-        if (pendingCount > 0) {
-          badge.classList.remove("hidden");
-          badge.innerText = pendingCount;
-        } else badge.classList.add("hidden");
+  <!-- Sidebar -->
+  <div class="flex">
+    <aside class="w-64 bg-gray-900 text-white min-h-screen p-6">
+      <h2 class="text-2xl font-bold mb-8">لوحة الإدارة</h2>
+      <nav class="space-y-4">
+        <a href="#" class="block py-2 px-4 bg-gray-800 rounded-lg font-medium">الرئيسية</a>
+        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">إدارة المستخدمين</a>
+        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">التقارير</a>
+        <a href="#" class="block py-2 px-4 text-gray-400 hover:bg-gray-800 rounded-lg">الإعدادات</a>
+      </nav>
+      <button id="logoutBtn" class="mt-8 w-full py-2 px-4 bg-red-600 text-white rounded-lg hover:bg-red-700 transition">تسجيل الخروج</button>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 p-8">
+      <header class="mb-8">
+        <h1 id="greeting" class="text-3xl font-bold text-gray-800">مرحباً بك في لوحة التحكم الإدارية!</h1>
+        <p class="text-gray-600">نظرة عامة على النظام.</p>
+      </header>
+
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h3 class="text-gray-500 text-sm font-medium">إجمالي المستخدمين</h3>
+          <p class="text-2xl font-bold mt-2">1,248</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h3 class="text-gray-500 text-sm font-medium">المستخدمين النشطين</h3>
+          <p class="text-2xl font-bold mt-2">842</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h3 class="text-gray-500 text-sm font-medium">التقارير المعلقة</h3>
+          <p class="text-2xl font-bold mt-2">12</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow">
+          <h3 class="text-gray-500 text-sm font-medium">الإيرادات الشهرية</h3>
+          <p class="text-2xl font-bold mt-2">٢٥٠,٠٠٠ ر.س</p>
+        </div>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow">
+        <h2 class="text-xl font-bold text-gray-800 mb-4">أحدث المستخدمين</h2>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">الاسم</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">البريد الإلكتروني</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">النوع</th>
+                <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">تاريخ الانضمام</th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">أحمد محمد</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">ahmed@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مستخدم</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٤-١٥</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">سارة علي</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">sara@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مستخدم</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٤-١٠</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">خالد سعيد</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">khaled@example.com</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">مسؤول</td>
+                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">٢٠٢٦-٠٣-٢٢</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      const greetingEl = document.getElementById('greeting');
+      const logoutBtn = document.getElementById('logoutBtn');
+
+      // Security Gate: Validate session and role
+      const { data: { session } } = await window.supabase.auth.getSession();
+      if (!session) {
+        window.location.href = 'login.html';
+        return;
       }
 
-      // ---------- UI Navigation ----------
-      function switchSection(section) {
-        document
-          .querySelectorAll('[id$="Section"]')
-          .forEach((el) => el.classList.add("hidden"));
-        document.getElementById(`${section}Section`).classList.remove("hidden");
-        const titles = {
-          dashboard: "لوحة القيادة",
-          requests: "الطلبات الواردة",
-          users: "المستخدمون",
-          analytics: "الإحصائيات",
-        };
-        document.getElementById("pageTitle").innerText = titles[section];
-        document
-          .querySelectorAll(".sidebar-link")
-          .forEach((link) => link.classList.remove("active"));
-        document.getElementById(`nav-${section}`).classList.add("active");
-        if (section === "analytics") updateAnalyticsCards();
+      const profile = await getProfile(session.user.id);
+      if (!profile || profile.role !== 'admin') {
+        window.location.href = 'login.html';
+        return;
       }
 
-      function logoutAdmin() {
-        showToast("جاري تسجيل الخروج...");
-        setTimeout(() => logout(), 600);
-      }
+      greetingEl.textContent = `مرحباً، ${profile.full_name}!`;
 
-      function showToast(msg) {
-        const toast = document.getElementById("toastMsg");
-        const textSpan = document.getElementById("toastText");
-        textSpan.innerText = msg;
-        toast.classList.remove("hidden");
-        setTimeout(() => toast.classList.add("hidden"), 2500);
-      }
-
-      function toggleSidebar() {
-        document.getElementById("sidebar").classList.toggle("hidden");
-      }
-
-      function updateClock() {
-        const el = document.getElementById("liveClock");
-        if (el) el.innerText = new Date().toLocaleTimeString("ar-EG");
-      }
-      setInterval(updateClock, 1000);
-
-      function initCharts() {
-        const ctx1 = document.getElementById("requestsChart").getContext("2d");
-        window.requestsChart = new Chart(ctx1, {
-          type: "bar",
-          data: {
-            labels: [],
-            datasets: [
-              {
-                label: "عدد الطلبات",
-                data: [],
-                backgroundColor: "#3b82f6",
-                borderRadius: 8,
-              },
-            ],
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: { legend: { position: "top" } },
-          },
-        });
-        const ctx2 = document.getElementById("trendChart").getContext("2d");
-        window.trendChart = new Chart(ctx2, {
-          type: "line",
-          data: {
-            labels: [],
-            datasets: [
-              {
-                label: "الطلبات",
-                data: [],
-                borderColor: "#f59e0b",
-                tension: 0.3,
-                fill: false,
-              },
-            ],
-          },
-          options: { responsive: true },
-        });
-        const ctx3 = document
-          .getElementById("analyticsPieChart")
-          .getContext("2d");
-        window.analyticsPieChart = new Chart(ctx3, {
-          type: "pie",
-          data: {
-            labels: ["مكتملة", "قيد الانتظار", "مرفوضة"],
-            datasets: [
-              {
-                data: [0, 0, 0],
-                backgroundColor: ["#10b981", "#f59e0b", "#ef4444"],
-              },
-            ],
-          },
-          options: { responsive: true },
-        });
-      }
-
-      window.changeRequestStatus = changeRequestStatus;
-      window.switchSection = switchSection;
-      window.logoutAdmin = logoutAdmin;
-      window.toggleSidebar = toggleSidebar;
-    </script>
-  </body>
+      logoutBtn.addEventListener('click', async () => {
+        await window.supabase.auth.signOut();
+        window.location.href = 'login.html';
+      });
+    });
+  </script>
+</body>
 </html>
-

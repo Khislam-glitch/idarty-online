@@ -1,34 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
-: "${SUPABASE_URL:?ERROR: SUPABASE_URL is not set}"
-: "${SUPABASE_ANON_KEY:?ERROR: SUPABASE_ANON_KEY is not set}"
-
-echo "🏗  Building into dist/ ..."
-rm -rf dist && mkdir -p dist
-
-# List files before copying (for debugging)
-echo "Files found in root:"
-ls -la *.html *.js 2>/dev/null || echo "No files found!"
-
-# Copy files
-cp -v *.html *.js dist/ 2>/dev/null || echo "Copy failed!"
-
-# Inject env vars into app.js safely without breaking the file
-if [ -f "dist/app.js" ]; then
-  echo "Injecting environment variables into app.js..."
-
-  # Using a temporary file is the safest way to handle sed in cross-platform environments
-  sed "s|%%SUPABASE_URL%%|${SUPABASE_URL}|g" dist/app.js >dist/app.tmp.js
-  sed "s|%%SUPABASE_ANON_KEY%%|${SUPABASE_ANON_KEY}|g" dist/app.tmp.js >dist/app.js
-  rm -f dist/app.tmp.js
-
-  echo "✅ Variables injected"
-else
-  echo "❌ dist/app.js not found!"
+if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ]; then
+  echo "Error: SUPABASE_URL and SUPABASE_ANON_KEY must be set in Netlify environment variables."
   exit 1
 fi
 
-echo "✅ Done"
-echo "Files in dist:"
-ls -la dist/
+rm -rf dist
+mkdir dist
+
+cp *.html *.js dist/
+
+# Replace placeholders safely using a temp file
+sed "s|%%SUPABASE_URL%%|$SUPABASE_URL|g; s|%%SUPABASE_ANON_KEY%%|$SUPABASE_ANON_KEY|g" dist/app.js > dist/app.js.tmp
+mv dist/app.js.tmp dist/app.js
