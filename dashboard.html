@@ -323,6 +323,253 @@
             </form>
           </div>
 
+          <!-- Services Grid -->
+          <section id="services">
+            <div class="flex items-center gap-3 mb-8">
+              <div class="w-1 h-8 bg-accent rounded-full"></div>
+              <h3 class="text-2xl font-bold text-gray-800">
+                الخدمات الإلكترونية
+              </h3>
+            </div>
+
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+            >
+              <!-- Card 1: Users -->
+              <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 card-hover group cursor-pointer"
+                onclick="openModal('modal-users')"
+              >
+                <div class="h-48 overflow-hidden relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1450101499163-c8848c66ca85?q=80&w=400"
+                    alt="Users"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+                  ></div>
+                  <div class="absolute bottom-4 right-4 text-white">
+                    <i class="fa-solid fa-users text-3xl mb-1 opacity-80"></i>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-bold text-lg text-gray-800 mb-1">
+                    مصلحة المستخدمين
+                  </h3>
+                  <p class="text-xs text-gray-500 mb-4">
+                    فرع الموظفين والأساتذة
+                  </p>
+                  <div class="space-y-2 mb-5">
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-check-circle text-green-500 text-xs"
+                      ></i>
+                      فرع الموظفين
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-check-circle text-green-500 text-xs"
+                      ></i>
+                      فرع الأساتذة
+                    </li>
+                  </div>
+                  <button
+                    class="w-full py-2.5 bg-blue-50 text-primary rounded-lg font-semibold text-sm group-hover:bg-primary group-hover:text-white transition-colors border border-transparent group-hover:border-primary"
+                  >
+                    تقديم طلب
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 2: Logistics -->
+              <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 card-hover group cursor-pointer"
+                onclick="openModal('modal-logistics')"
+              >
+                <div class="h-48 overflow-hidden relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?q=80&w=400"
+                    alt="Maintenance"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+                  ></div>
+                  <div class="absolute bottom-4 right-4 text-white">
+                    <i
+                      class="fa-solid fa-screwdriver-wrench text-3xl mb-1 opacity-80"
+                    ></i>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-bold text-lg text-gray-800 mb-1">
+                    الوسائل والصيانة
+                  </h3>
+                  <p class="text-xs text-gray-500 mb-4">إصلاح ومتابعة</p>
+                  <div class="space-y-2 mb-5">
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-file-arrow-down text-orange-500 text-xs"
+                      ></i>
+                      تحميل الملفات
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i class="fa-solid fa-wrench text-orange-500 text-xs"></i>
+                      طلب صيانة
+                    </li>
+                  </div>
+                  <button
+                    class="w-full py-2.5 bg-orange-50 text-orange-600 rounded-lg font-semibold text-sm group-hover:bg-orange-600 group-hover:text-white transition-colors border border-transparent group-hover:border-orange-600"
+                  >
+                    الدخول للخدمة
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 3: Studies -->
+              <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 card-hover group cursor-pointer"
+                onclick="openModal('modal-pedagogy')"
+              >
+                <div class="h-48 overflow-hidden relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1544652478-6653e09f18a2?q=80&w=400"
+                    alt="Documents"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+                  ></div>
+                  <div class="absolute bottom-4 right-4 text-white">
+                    <i
+                      class="fa-solid fa-graduation-cap text-3xl mb-1 opacity-80"
+                    ></i>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-bold text-lg text-gray-800 mb-1">
+                    مصلحة الدراسات
+                  </h3>
+                  <p class="text-xs text-gray-500 mb-4">وثائق وكشوفات</p>
+                  <div class="space-y-2 mb-5">
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-file-signature text-green-500 text-xs"
+                      ></i>
+                      طلب وثائق بيداغوجية
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-list-check text-green-500 text-xs"
+                      ></i>
+                      كشوف النقاط
+                    </li>
+                  </div>
+                  <button
+                    class="w-full py-2.5 bg-green-50 text-green-600 rounded-lg font-semibold text-sm group-hover:bg-green-600 group-hover:text-white transition-colors border border-transparent group-hover:border-green-600"
+                  >
+                    تقديم طلب
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 4: Labs -->
+              <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 card-hover group cursor-pointer"
+                onclick="openModal('modal-labs')"
+              >
+                <div class="h-48 overflow-hidden relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1581093588401-fbb62a02f120?q=80&w=400"
+                    alt="Labs"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+                  ></div>
+                  <div class="absolute bottom-4 right-4 text-white">
+                    <i class="fa-solid fa-flask text-3xl mb-1 opacity-80"></i>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-bold text-lg text-gray-800 mb-1">
+                    مسؤول المخابر
+                  </h3>
+                  <p class="text-xs text-gray-500 mb-4">مخابر بيداغوجية و IT</p>
+                  <div class="space-y-2 mb-5">
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-microscope text-purple-500 text-xs"
+                      ></i>
+                      مخابر بيداغوجية
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i
+                        class="fa-solid fa-laptop-code text-purple-500 text-xs"
+                      ></i>
+                      مخابر الإعلام الآلي
+                    </li>
+                  </div>
+                  <button
+                    class="w-full py-2.5 bg-purple-50 text-purple-600 rounded-lg font-semibold text-sm group-hover:bg-purple-600 group-hover:text-white transition-colors border border-transparent group-hover:border-purple-600"
+                  >
+                    إبلاغ عن انشغال
+                  </button>
+                </div>
+              </div>
+
+              <!-- Card 5: Activities (NEW) -->
+              <div
+                class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden transition-all duration-300 card-hover group cursor-pointer"
+                onclick="openModal('modal-activities')"
+              >
+                <div class="h-48 overflow-hidden relative">
+                  <img
+                    src="https://images.unsplash.com/photo-1523580494863-6f3031224c94?q=80&w=400"
+                    alt="Activities"
+                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                  />
+                  <div
+                    class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"
+                  ></div>
+                  <div class="absolute bottom-4 right-4 text-white">
+                    <i
+                      class="fa-solid fa-calendar-star text-3xl mb-1 opacity-80"
+                    ></i>
+                  </div>
+                </div>
+                <div class="p-5">
+                  <h3 class="font-bold text-lg text-gray-800 mb-1">
+                    مصلحة الأنشطة
+                  </h3>
+                  <p class="text-xs text-gray-500 mb-4">
+                    ثقافية، رياضية، وفعاليات
+                  </p>
+                  <div class="space-y-2 mb-5">
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i class="fa-solid fa-palette text-cyan-500 text-xs"></i>
+                      فعاليات ثقافية
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i class="fa-solid fa-running text-cyan-500 text-xs"></i>
+                      أنشطة رياضية
+                    </li>
+                    <li class="flex items-center gap-2 text-sm text-gray-600">
+                      <i class="fa-solid fa-ticket text-cyan-500 text-xs"></i>
+                      طلبات خروج ورحلات
+                    </li>
+                  </div>
+                  <button
+                    class="w-full py-2.5 bg-cyan-50 text-cyan-700 rounded-lg font-semibold text-sm group-hover:bg-cyan-600 group-hover:text-white transition-colors border border-transparent group-hover:border-cyan-600"
+                  >
+                    تقديم طلب
+                  </button>
+                </div>
+              </div>
+            </div>
+          </section>
+
           <div
             id="requests"
             class="glass rounded-2xl shadow-lg overflow-hidden animate-fade-in"
@@ -364,6 +611,914 @@
             </div>
           </div>
         </main>
+      </div>
+    </div>
+
+    <!-- Modal 1: Users (Employees & Teachers) -->
+    <div
+      id="modal-users"
+      class="fixed inset-0 z-50 hidden overflow-y-auto"
+      aria-labelledby="modal-title"
+      role="dialog"
+      aria-modal="true"
+    >
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"
+          onclick="closeModal('modal-users')"
+        ></div>
+        <span
+          class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          aria-hidden="true"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
+        >
+          <!-- Tabs Header -->
+          <div class="flex border-b border-gray-100 bg-gray-50">
+            <button
+              onclick="switchTab('tab-employee')"
+              id="btn-tab-employee"
+              class="w-1/2 py-4 text-center font-bold text-primary border-b-4 border-primary bg-white transition-all"
+            >
+              فرع الموظفين 📝
+            </button>
+            <button
+              onclick="switchTab('tab-teacher')"
+              id="btn-tab-teacher"
+              class="w-1/2 py-4 text-center font-medium text-gray-500 hover:text-primary hover:bg-gray-50 transition-all"
+            >
+              فرع الأساتذة 📝
+            </button>
+          </div>
+
+          <div class="p-6 max-h-[70vh] overflow-y-auto">
+            <!-- Employee Form -->
+            <form
+              id="tab-employee"
+              onsubmit="handleFormSubmit(event, 'طلب الموظف')"
+            >
+              <h3
+                class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"
+              >
+                <i class="fa-solid fa-id-card text-primary"></i> استمارة فرع
+                الموظفين
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >البريد الإلكتروني</label
+                  >
+                  <input
+                    type="email"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >الاسم واللقب</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  />
+                </div>
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >المنصب الوظيفي</label
+                >
+                <input
+                  type="text"
+                  name="details"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                />
+              </div>
+              <div class="mb-4">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >نوع الوثيقة المطلوبة</label
+                >
+                <select
+                  name="type_detail"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all bg-white"
+                >
+                  <option value="">اختر نوع الوثيقة...</option>
+                  <option value="شهادة عمل">شهادة عمل</option>
+                  <option value="وثيقة من الملف الإداري">
+                    وثيقة من الملف الإداري
+                  </option>
+                  <option value="شهادة راتب">شهادة راتب</option>
+                  <option value="وثيقة أخرى">وثيقة أخرى</option>
+                </select>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >تحديد الوثيقة المطلوبة بالتفصيل:</label
+                >
+                <textarea
+                  rows="3"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                ></textarea>
+              </div>
+              <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                <button
+                  type="button"
+                  onclick="closeModal('modal-users')"
+                  class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  class="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-blue-800 font-medium shadow-lg shadow-blue-100 transition-all submit-btn"
+                >
+                  إرسال الطلب
+                </button>
+              </div>
+            </form>
+
+            <!-- Teacher Form (Hidden by default) -->
+            <form
+              id="tab-teacher"
+              class="hidden"
+              onsubmit="handleFormSubmit(event, 'طلب الأستاذ')"
+            >
+              <h3
+                class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"
+              >
+                <i class="fa-solid fa-chalkboard-user text-primary"></i> استمارة
+                فرع الأساتذة
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >البريد الإلكتروني</label
+                  >
+                  <input
+                    type="email"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >الاسم واللقب</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                  />
+                </div>
+              </div>
+              <div
+                class="mb-4 p-4 bg-blue-50/50 rounded-lg border border-blue-100"
+              >
+                <label class="block text-sm font-bold text-gray-800 mb-3"
+                  >نوع الوثيقة</label
+                >
+                <div class="flex flex-col sm:flex-row gap-6">
+                  <label
+                    class="flex items-center cursor-pointer p-2 rounded hover:bg-white transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="doc_type_teacher"
+                      value="نسخة من وثيقة"
+                      class="ml-3 text-primary focus:ring-primary"
+                    />
+                    نسخة من وثيقة من ملف الإدارة
+                  </label>
+                  <label
+                    class="flex items-center cursor-pointer p-2 rounded hover:bg-white transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="doc_type_teacher"
+                      value="شهادة عمل"
+                      class="ml-3 text-primary focus:ring-primary"
+                    />
+                    شهادة عمل
+                  </label>
+                </div>
+              </div>
+              <div
+                class="mb-4 p-4 bg-blue-50/50 rounded-lg border border-blue-100"
+              >
+                <label class="block text-sm font-bold text-gray-800 mb-3"
+                  >اللغة</label
+                >
+                <div class="flex gap-6">
+                  <label
+                    class="flex items-center cursor-pointer p-2 rounded hover:bg-white transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="lang"
+                      checked
+                      value="عربي"
+                      class="ml-3 text-primary focus:ring-primary"
+                    />
+                    عربي
+                  </label>
+                  <label
+                    class="flex items-center cursor-pointer p-2 rounded hover:bg-white transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="lang"
+                      value="فرنسي"
+                      class="ml-3 text-primary focus:ring-primary"
+                    />
+                    فرنسي
+                  </label>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >تحديد الوثيقة المطلوبة بالتفصيل:</label
+                >
+                <textarea
+                  name="type_detail"
+                  rows="3"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all"
+                ></textarea>
+              </div>
+              <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                <button
+                  type="button"
+                  onclick="closeModal('modal-users')"
+                  class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+                >
+                  إلغاء
+                </button>
+                <button
+                  type="submit"
+                  class="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-blue-800 font-medium shadow-lg shadow-blue-100 transition-all submit-btn"
+                >
+                  إرسال الطلب
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 2: Logistics & Maintenance -->
+    <div id="modal-logistics" class="fixed inset-0 z-50 hidden overflow-y-auto">
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"
+          onclick="closeModal('modal-logistics')"
+        ></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full"
+        >
+          <div
+            class="bg-orange-50 px-5 py-4 border-b border-orange-100 flex justify-between items-center"
+          >
+            <h3
+              class="text-lg font-bold text-orange-900 flex items-center gap-2"
+            >
+              <i class="fa-solid fa-toolbox text-orange-500"></i> فرع الوسائل
+              والصيانة
+            </h3>
+            <button
+              onclick="closeModal('modal-logistics')"
+              class="text-orange-600 hover:text-orange-900 w-8 h-8 flex items-center justify-center rounded-full hover:bg-orange-200/50 transition-colors"
+            >
+              <i class="fa-solid fa-times text-lg"></i>
+            </button>
+          </div>
+          <div class="p-6 space-y-4 max-h-[70vh] overflow-y-auto">
+            <!-- Item 1 -->
+            <div
+              class="group border border-gray-200 rounded-xl p-4 hover:bg-orange-50/50 hover:border-orange-200 transition-all shadow-sm"
+            >
+              <div class="flex justify-between items-start mb-3">
+                <h4
+                  class="font-bold text-gray-800 group-hover:text-orange-800 transition-colors"
+                >
+                  1. نموذج طلب أشغال الصيانة
+                </h4>
+                <span
+                  class="text-xs bg-red-100 text-red-600 px-2.5 py-1 rounded-full border border-red-200 font-medium"
+                  >متعدد التخصصات</span
+                >
+              </div>
+              <div class="flex flex-wrap gap-2 text-xs text-gray-500 mb-4">
+                <span
+                  class="bg-white px-2.5 py-1 rounded border border-gray-100 shadow-sm"
+                  >الفيزياء</span
+                >
+                <span
+                  class="bg-white px-2.5 py-1 rounded border border-gray-100 shadow-sm"
+                  >الكيمياء</span
+                >
+                <span
+                  class="bg-white px-2.5 py-1 rounded border border-gray-100 shadow-sm"
+                  >الرياضيات</span
+                >
+              </div>
+              <button
+                onclick="simulateDownload('نموذج طلب أشغال الصيانة.pdf')"
+                class="w-full py-2.5 bg-white border border-orange-200 text-orange-600 rounded-lg hover:bg-orange-500 hover:text-white hover:border-transparent hover:shadow-md transition-all flex items-center justify-center gap-2 font-medium"
+              >
+                <i class="fa-solid fa-download"></i> تحميل النموذج
+              </button>
+            </div>
+
+            <!-- Item 2 -->
+            <div
+              class="group border border-gray-200 rounded-xl p-4 hover:bg-orange-50/50 hover:border-orange-200 transition-all shadow-sm"
+            >
+              <h4
+                class="font-bold text-gray-800 mb-3 group-hover:text-orange-800 transition-colors"
+              >
+                2. وثيقة أشغال الصيانة العامة
+              </h4>
+              <button
+                onclick="simulateDownload('وثيقة أشغال الصيانة العامة.pdf')"
+                class="w-full py-2.5 bg-white border border-orange-200 text-orange-600 rounded-lg hover:bg-orange-500 hover:text-white hover:border-transparent hover:shadow-md transition-all flex items-center justify-center gap-2 font-medium"
+              >
+                <i class="fa-solid fa-download"></i> تحميل الوثيقة
+              </button>
+            </div>
+
+            <!-- Item 3 -->
+            <div
+              class="group border border-gray-200 rounded-xl p-4 hover:bg-orange-50/50 hover:border-orange-200 transition-all shadow-sm"
+            >
+              <h4
+                class="font-bold text-gray-800 mb-3 group-hover:text-orange-800 transition-colors"
+              >
+                3. نموذج جرد الوسائل والمرافق
+              </h4>
+              <button
+                onclick="simulateDownload('نموذج جرد الوسائل والمرافق.xlsx')"
+                class="w-full py-2.5 bg-white border border-orange-200 text-orange-600 rounded-lg hover:bg-orange-500 hover:text-white hover:border-transparent hover:shadow-md transition-all flex items-center justify-center gap-2 font-medium"
+              >
+                <i class="fa-solid fa-download"></i> تحميل النموذج
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 3: Pedagogical Documents -->
+    <div id="modal-pedagogy" class="fixed inset-0 z-50 hidden overflow-y-auto">
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"
+          onclick="closeModal('modal-pedagogy')"
+        ></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
+        >
+          <div
+            class="bg-green-50 px-5 py-4 border-b border-green-100 flex justify-between items-center"
+          >
+            <h3
+              class="text-lg font-bold text-green-900 flex items-center gap-2"
+            >
+              <i class="fa-solid fa-file-signature text-green-600"></i> استمارة
+              طلب وثائق بيداغوجية
+            </h3>
+            <button
+              onclick="closeModal('modal-pedagogy')"
+              class="text-green-600 hover:text-green-900 w-8 h-8 flex items-center justify-center rounded-full hover:bg-green-200/50 transition-colors"
+            >
+              <i class="fa-solid fa-times text-lg"></i>
+            </button>
+          </div>
+          <form
+            onsubmit="handleFormSubmit(event, 'طلب وثيقة بيداغوجية')"
+            class="p-6 max-h-[70vh] overflow-y-auto"
+          >
+            <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-user text-gray-400"></i> المعلومات الشخصية
+            </h4>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100"
+            >
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >البريد الإلكتروني</label
+                >
+                <input
+                  type="email"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >الاسم واللقب</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >رقم التسجيل</label
+                >
+                <input
+                  type="text"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >القسم الموجه إليه الطلب</label
+                >
+                <select
+                  name="department"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all bg-white"
+                >
+                  <option value="">اختر القسم...</option>
+                  <option value="قسم الفيزياء">قسم الفيزياء</option>
+                  <option value="قسم الرياضيات">قسم الرياضيات</option>
+                  <option value="قسم الكيمياء">قسم الكيمياء</option>
+                  <option value="جذع مشترك علوم المادة">
+                    جذع مشترك علوم المادة
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <h4
+              class="font-bold text-gray-800 mb-4 flex items-center gap-2 mt-8"
+            >
+              <i class="fa-solid fa-graduation-cap text-gray-400"></i> التخصص
+              والمستوى
+            </h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >التخصص</label
+                >
+                <input
+                  type="text"
+                  name="type_detail"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >المستوى</label
+                >
+                <select
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500/50 focus:border-green-500 transition-all bg-white"
+                >
+                  <option value="">اختر المستوى...</option>
+                  <option value="L1">ليسانس 1</option>
+                  <option value="L2">ليسانس 2</option>
+                  <option value="L3">ليسانس 3</option>
+                  <option value="M1">ماستر 1</option>
+                  <option value="M2">ماستر 2</option>
+                </select>
+              </div>
+            </div>
+
+            <h4
+              class="font-bold text-gray-800 mb-4 flex items-center gap-2 mt-8"
+            >
+              <i class="fa-solid fa-file-lines text-gray-400"></i> نوع الوثيقة
+            </h4>
+            <div
+              class="flex flex-wrap gap-4 mb-8 p-4 bg-green-50/50 rounded-xl border border-green-100"
+            >
+              <label
+                class="flex items-center cursor-pointer p-3 bg-white rounded-lg border border-gray-200 hover:border-green-400 hover:shadow-sm transition-all flex-1 min-w-[140px]"
+              >
+                <input
+                  type="radio"
+                  name="ped_doc"
+                  value="شهادة مدرسية"
+                  required
+                  class="ml-3 text-green-600 focus:ring-green-500"
+                />
+                شهادة مدرسية
+              </label>
+              <label
+                class="flex items-center cursor-pointer p-3 bg-white rounded-lg border border-gray-200 hover:border-green-400 hover:shadow-sm transition-all flex-1 min-w-[140px]"
+              >
+                <input
+                  type="radio"
+                  name="ped_doc"
+                  value="كشوف النقاط"
+                  class="ml-3 text-green-600 focus:ring-green-500"
+                />
+                كشوف النقاط
+              </label>
+              <label
+                class="flex items-center cursor-pointer p-3 bg-white rounded-lg border border-gray-200 hover:border-green-400 hover:shadow-sm transition-all flex-1 min-w-[140px]"
+              >
+                <input
+                  type="radio"
+                  name="ped_doc"
+                  value="الموسم الجامعي"
+                  class="ml-3 text-green-600 focus:ring-green-500"
+                />
+                الموسم الجامعي
+              </label>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <button
+                type="button"
+                onclick="closeModal('modal-pedagogy')"
+                class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+              >
+                إلغاء
+              </button>
+              <button
+                type="submit"
+                class="px-5 py-2.5 bg-green-600 text-white rounded-lg hover:bg-green-700 shadow-lg shadow-green-100 font-medium transition-all submit-btn"
+              >
+                إرسال الطلب
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 4: Labs (Pedagogical & IT) -->
+    <div id="modal-labs" class="fixed inset-0 z-50 hidden overflow-y-auto">
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"
+          onclick="closeModal('modal-labs')"
+        ></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full"
+        >
+          <!-- Tabs Header -->
+          <div class="flex border-b border-gray-100 bg-gray-50">
+            <button
+              onclick="switchLabTab('tab-ped-lab')"
+              id="btn-tab-ped-lab"
+              class="w-1/2 py-4 text-center font-bold text-purple-700 border-b-4 border-purple-700 bg-white transition-all"
+            >
+              مخابر بيداغوجية 📝
+            </button>
+            <button
+              onclick="switchLabTab('tab-it-lab')"
+              id="btn-tab-it-lab"
+              class="w-1/2 py-4 text-center font-medium text-gray-500 hover:text-purple-700 hover:bg-gray-50 transition-all"
+            >
+              مخابر الإعلام الآلي 📝
+            </button>
+          </div>
+
+          <div class="p-6 max-h-[70vh] overflow-y-auto">
+            <!-- Pedagogical Lab Form -->
+            <form
+              id="tab-ped-lab"
+              onsubmit="handleFormSubmit(event, 'انشغال مخبر بيداغوجي')"
+            >
+              <h3
+                class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"
+              >
+                <i class="fa-solid fa-microscope text-purple-600"></i> استمارة
+                انشغالات المخابر البيداغوجية
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >الاسم واللقب</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >اسم المخبر</label
+                  >
+                  <input
+                    type="text"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  />
+                </div>
+              </div>
+              <div
+                class="mb-4 p-4 bg-purple-50/50 rounded-lg border border-purple-100"
+              >
+                <label class="block text-sm font-bold text-gray-800 mb-3"
+                  >القسم</label
+                >
+                <div class="flex flex-wrap gap-4">
+                  <label
+                    class="flex items-center cursor-pointer px-3 py-2 bg-white rounded border border-gray-200 hover:border-purple-400 transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="department"
+                      value="قسم الفيزياء"
+                      required
+                      class="ml-2 text-purple-600"
+                    />
+                    قسم الفيزياء
+                  </label>
+                  <label
+                    class="flex items-center cursor-pointer px-3 py-2 bg-white rounded border border-gray-200 hover:border-purple-400 transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="department"
+                      value="قسم الرياضيات"
+                      class="ml-2 text-purple-600"
+                    />
+                    قسم الرياضيات
+                  </label>
+                  <label
+                    class="flex items-center cursor-pointer px-3 py-2 bg-white rounded border border-gray-200 hover:border-purple-400 transition-colors"
+                  >
+                    <input
+                      type="radio"
+                      name="department"
+                      value="قسم الكيمياء"
+                      class="ml-2 text-purple-600"
+                    />
+                    قسم الكيمياء
+                  </label>
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >نوع الانشغال</label
+                >
+                <textarea
+                  name="type_detail"
+                  rows="3"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  placeholder="اشرح المشكلة أو الانشغال هنا..."
+                ></textarea>
+              </div>
+              <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                <button
+                  type="button"
+                  onclick="closeModal('modal-labs')"
+                  class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+                >
+                  إغلاق
+                </button>
+                <button
+                  type="submit"
+                  class="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 shadow-lg shadow-purple-100 font-medium transition-all submit-btn"
+                >
+                  إرسال البيانات
+                </button>
+              </div>
+            </form>
+
+            <!-- IT Lab Form (Hidden) -->
+            <form
+              id="tab-it-lab"
+              class="hidden"
+              onsubmit="handleFormSubmit(event, 'انشغال مخبر إعلام آلي')"
+            >
+              <h3
+                class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"
+              >
+                <i class="fa-solid fa-laptop-code text-purple-600"></i> استمارة
+                انشغالات مخابر الإعلام الآلي
+              </h3>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >الاسم واللقب</label
+                  >
+                  <input
+                    type="text"
+                    name="name"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  />
+                </div>
+                <div>
+                  <label class="block text-sm font-medium text-gray-700 mb-1"
+                    >اسم القاعة</label
+                  >
+                  <input
+                    type="text"
+                    required
+                    class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  />
+                </div>
+              </div>
+              <div class="mb-6">
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >نوع الانشغال</label
+                >
+                <textarea
+                  name="type_detail"
+                  rows="3"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:border-purple-500 transition-all"
+                  placeholder="مثال: خلل في الأجهزة، انقطاع إنترنت..."
+                ></textarea>
+              </div>
+              <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+                <button
+                  type="button"
+                  onclick="closeModal('modal-labs')"
+                  class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+                >
+                  إغلاق
+                </button>
+                <button
+                  type="submit"
+                  class="px-5 py-2.5 bg-purple-600 text-white rounded-lg hover:bg-purple-700 shadow-lg shadow-purple-100 font-medium transition-all submit-btn"
+                >
+                  إرسال البيانات
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal 5: Activities (NEW) -->
+    <div
+      id="modal-activities"
+      class="fixed inset-0 z-50 hidden overflow-y-auto"
+    >
+      <div
+        class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0"
+      >
+        <div
+          class="fixed inset-0 bg-gray-900 bg-opacity-75 transition-opacity backdrop-blur-sm"
+          onclick="closeModal('modal-activities')"
+        ></div>
+        <span class="hidden sm:inline-block sm:align-middle sm:h-screen"
+          >&#8203;</span
+        >
+        <div
+          class="inline-block align-bottom bg-white rounded-xl text-right overflow-hidden shadow-2xl transform transition-all sm:my-8 sm:align-middle sm:max-w-xl sm:w-full"
+        >
+          <div
+            class="bg-cyan-50 px-5 py-4 border-b border-cyan-100 flex justify-between items-center"
+          >
+            <h3 class="text-lg font-bold text-cyan-900 flex items-center gap-2">
+              <i class="fa-solid fa-calendar-star text-cyan-600"></i> مصلحة
+              الأنشطة والفعاليات
+            </h3>
+            <button
+              onclick="closeModal('modal-activities')"
+              class="text-cyan-600 hover:text-cyan-900 w-8 h-8 flex items-center justify-center rounded-full hover:bg-cyan-200/50 transition-colors"
+            >
+              <i class="fa-solid fa-times text-lg"></i>
+            </button>
+          </div>
+          <form
+            onsubmit="handleFormSubmit(event, 'طلب نشاط')"
+            class="p-6 max-h-[70vh] overflow-y-auto"
+          >
+            <h4 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
+              <i class="fa-solid fa-user-pen text-gray-400"></i> المعلومات
+              الأساسية
+            </h4>
+            <div
+              class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6 p-4 bg-gray-50 rounded-xl border border-gray-100"
+            >
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >البريد الإلكتروني</label
+                >
+                <input
+                  type="email"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >الاسم واللقب</label
+                >
+                <input
+                  type="text"
+                  name="name"
+                  required
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all bg-white"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >القسم/الفرع</label
+                >
+                <input
+                  type="text"
+                  name="department"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all bg-white"
+                  placeholder="مثال: قسم الفيزياء / فرع الأساتذة"
+                />
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1"
+                  >رقم الهاتف</label
+                >
+                <input
+                  type="tel"
+                  class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all bg-white"
+                />
+              </div>
+            </div>
+
+            <h4
+              class="font-bold text-gray-800 mb-4 flex items-center gap-2 mt-8"
+            >
+              <i class="fa-solid fa-list-check text-gray-400"></i> تفاصيل النشاط
+            </h4>
+            <div
+              class="mb-4 p-4 bg-cyan-50/50 rounded-lg border border-cyan-100"
+            >
+              <label class="block text-sm font-bold text-gray-800 mb-3"
+                >نوع النشاط المطلوب</label
+              >
+              <select
+                name="type_detail"
+                required
+                class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all bg-white"
+              >
+                <option value="">اختر نوع النشاط...</option>
+                <option value="فعالية ثقافية">فعالية ثقافية / فنية</option>
+                <option value="نشاط رياضي">نشاط رياضي / مسابقة</option>
+                <option value="رحلة دراسية">رحلة دراسية / علمية</option>
+                <option value="مؤتمر أو ورشة">مؤتمر أو ورشة عمل</option>
+                <option value="طلب خروج">طلب خروج أو تنقل</option>
+              </select>
+            </div>
+
+            <div class="mb-6">
+              <label class="block text-sm font-medium text-gray-700 mb-1"
+                >شرح الطلب / التفاصيل</label
+              >
+              <textarea
+                rows="4"
+                required
+                class="input-field w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500/50 focus:border-cyan-500 transition-all"
+                placeholder="اذكر تفاصيل النشاط، التاريخ المقترح، والمستفيدين..."
+              ></textarea>
+            </div>
+
+            <div class="flex justify-end gap-3 pt-4 border-t border-gray-100">
+              <button
+                type="button"
+                onclick="closeModal('modal-activities')"
+                class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-medium transition-colors"
+              >
+                إلغاء
+              </button>
+              <button
+                type="submit"
+                class="px-5 py-2.5 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 shadow-lg shadow-cyan-100 font-medium transition-all submit-btn"
+              >
+                إرسال الطلب
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
