@@ -5,6 +5,7 @@
 # ─────────────────────────────────────────────────────────────────
 set -e
 
+# Validate required variables are present
 : "${SUPABASE_URL:?  ERROR: SUPABASE_URL is not set}"
 : "${SUPABASE_ANON_KEY:?  ERROR: SUPABASE_ANON_KEY is not set}"
 
@@ -20,7 +21,7 @@ if [ -d "src" ]; then
   cp -r src/. "$DIST/"
 else
   echo "📂 Source: repo root"
-  # Copy all HTML, JS, CSS files from root (skip dist/, build.sh, etc.)
+  # Copy all HTML, JS, CSS files from root
   find . -maxdepth 1 \
     \( -name "*.html" -o -name "*.js" -o -name "*.css" \) \
     ! -name "." \
